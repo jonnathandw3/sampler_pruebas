@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <body>
+        <ui:composition template="./../Template/Plantilla.xhtml">
+            <ui:define name="content">
+                <!--Miga de pan-->
+                <div class="mainbar">
+                    <!-- Page heading -->
+                    <div class="page-head">
+                        <!--titulo contenido-->
+                        <!-- <h2 class="float-left">Reservas</h2>
+
+                          <div class="clearfix"></div> -->
+                        <!--fin titulo contenido-->
+                        <!-- miga de pan -->
+                        <div class="bread-crumb"> <a href="mdl.reservas.dashboard.xhtml"><i class="fa fa-home"></i>Home</a> 
+                            <!-- division --> 
+                            <span class="divider">/</span>  <a href="#" class="bread-current">Reservas</a>
+                        </div>
+                        <!--fin miga de pan-->
+                    </div>
+                    <!--contenido pagina-->
+                    <div class="matter">
+                        <div class="container">
+                            <!-- Table -->
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="widget">
+                                        <div class="widget-head">
+                                            <div class="float-left">Agenda del dia</div>
+                                            <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="wsettings"><i class="fa fa-wrench"></i></a>  <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="widget-content">
+
+                                            <!--Contenido widget-->
+
+                                            <div id='calendarReservas'></div>
+
+                                            <!--Fin contenido widget-->
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-8 aligncenter">
+                                    <div class="widget">
+                                        <div class="widget-head">
+                                            <div class="float-left">Agregar reserva</div>
+                                            <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="wsettings"><i class="fa fa-wrench"></i></a>  <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="widget-content">
+
+                                            <!--Contenido widget-->
+
+                                            <div class="card-body">
+                                                <form class="form" role="form" autocomplete="off">
+                                                    <div class="form-group row">
+                                                        <label class="col-lg-3 col-form-label form-control-label" required="true">Codigo de Reserva</label>
+                                                        <div class="col-lg-4">
+                                                            <input class="form-control" type="text" value="Codigo" name="codigo" pattern="[A-Za-z]{5-8}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-lg-3 col-form-label form-control-label">Sala</label>
+                                                        <div class="col-lg-4">
+                                                            <select id="Sede" class="form-control" size="0">
+                                                                <option value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-lg-3 col-form-label form-control-label" required="true">Cedula cliente</label>
+                                                        <div class="col-lg-4">
+                                                            <input class="form-control" type="text" value="Cedula" pattern="[A-Za-z]{5-8}" name="identificacion"/>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <label class="col-lg-3 col-form-label form-control-label">Nombre Cliente</label>
+                                                        <div class="col-lg-4">
+                                                            <input class="form-control" type="text" value="Nombre" name="nombre_Cliente"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-lg-3 col-form-label form-control-label">Fecha</label>
+                                                        <div class="col-md-2">
+                                                            <select class="form-control" name="Dia" size="0">
+                                                                <option value="01">01</option>
+                                                                <option value="02">02</option>
+                                                                <option value="03">03</option>
+                                                                <option value="04">04</option>
+                                                                <option value="05">05</option>
+                                                                <option value="06">06</option>
+                                                                <option value="07">07</option>
+                                                                <option value="08">08</option>
+                                                                <option value="09">09</option>
+                                                                <option value="10">10</option>
+                                                                <option value="11">11</option>
+                                                                <option value="12">12</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <select class="form-control" name="Mes" size="0">
+                                                                <option value="01">Ene</option>
+                                                                <option value="02">Feb</option>
+                                                                <option value="03">Mar</option>
+                                                                <option value="04">Abr</option>
+                                                                <option value="05">May</option>
+                                                                <option value="06">Jun</option>
+                                                                <option value="07">Jul</option>
+                                                                <option value="08">Ago</option>
+                                                                <option value="09">Sep</option>
+                                                                <option value="10">Oct</option>
+                                                                <option value="11">Nov</option>
+                                                                <option value="12">Dic</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <select class="form-control" name="Año" size="0">
+                                                                <option>2018</option>
+                                                                <option>2019</option>
+                                                                <option>2020</option>
+                                                                <option>2021</option>
+                                                                <option>2022</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-lg-3 col-form-label form-control-label" required="true">Horario inicio</label>
+                                                        <div class="col-lg-4">
+                                                            <input type="time" class="form-control" id="horario_Inicio" pattern="[A-Za-z]{5-8}" placeholder="Ingresar Horario" required="true"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-lg-3 col-form-label form-control-label" required="true">Horario Final</label>
+                                                        <div class="col-lg-4">
+                                                            <input type="time" class="form-control" id="horario_Final" pattern="[A-Za-z]{5-8}" placeholder="Ingresar Horario" required="true"/>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+
+                                                        <div class="offset-lg-8">
+                                                            <br/><br/>
+                                                            <input type="submit" class="btn btn-defaiult" value="Cancelar" />
+                                                            <input type="submit" class="btn btn-defaiult" value="Enviar" />
+                                                        </div>
+
+                                                    </div>
+                                                </form>
+                                            </div>  
+
+
+
+                                            <!--Fin contenido widget-->
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- fin contenido pagina-->
+                </div>
+                <!--Fin miga de pan-->
+            </ui:define>
+        </ui:composition>
+    </body>
+
+</html>

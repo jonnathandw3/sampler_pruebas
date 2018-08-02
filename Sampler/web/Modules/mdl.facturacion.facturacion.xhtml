@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <body>
+        <ui:composition template="./../Template/Plantilla.xhtml">
+            <ui:define name="content">
+                <!--Miga de pan-->
+                <div class="mainbar">
+                    <!-- Page heading -->
+                    <div class="page-head">
+                        <!--titulo contenido-->
+                        <!-- <h2 class="float-left">Reservas</h2>
+
+                          <div class="clearfix"></div> -->
+                        <!--fin titulo contenido-->
+                        <!-- miga de pan -->
+                        <div class="bread-crumb"> <a href="mdl.reservas.dashboard.xhtml"><i class="fa fa-home"></i>Inicio</a> 
+                            <!-- division --> <span class="divider">/</span>  <a href="#" class="bread-current">Facturación</a>
+                        </div>
+                        <!--fin miga de pan-->
+                    </div>
+                    <!--contenido pagina-->
+                    <div class="matter">
+                        <div class="container">
+                            <!-- Table -->
+                            <div class="row">
+                                <div class="col-xl-12">
+
+                                    <div class="widget">
+                                        <div class="widget-head">
+                                            <div class="float-left">FACTURACIÓN</div>
+                                            <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="widget-content container-fluid">
+
+                                            <div class="col-md-12" style="background-color:white;">
+                                                <div class="form-group row">
+
+                                                    <div class="col-sm-4">
+                                                        <label for="fecha" style="font-size: larger; color: black; margin: 0px; " class="col-sm-12 text-center control-label">Fecha factura</label>
+                                                        <!--                                                        <input class="form-control " id="fechaFactura" type="date"/>-->
+                                                        <h:outputLabel style="font-size: 2em;" class="col-sm-12 text-center control-label" value="#{facturaSessionController.now}">
+                                                            <f:convertDateTime pattern="dd/MM/yyyy">
+                                                            </f:convertDateTime>
+                                                        </h:outputLabel>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <label for="fecha" style="font-size: larger; color: black; margin: 0px; " class="col-sm-12 text-center control-label">Fecha factura</label>
+                                                        <!--                                                        <input class="form-control " id="fechaFactura" type="date"/>-->
+                                                        <h:outputLabel style="font-size: 2em;" class="col-sm-12 text-center control-label" value="#{facturaSessionController.now}">
+                                                            <f:convertDateTime pattern="dd/MM/yyyy">
+                                                            </f:convertDateTime>
+                                                        </h:outputLabel>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <label for="fecha" style="font-size: larger; color: black; margin: 0px; " class="col-sm-12 text-center control-label">Fecha factura</label>
+                                                        <!--                                                        <input class="form-control " id="fechaFactura" type="date"/>-->
+                                                        <h:outputLabel style="font-size: 2em;" class="col-sm-12 text-center control-label" value="#{facturaSessionController.now}">
+                                                            <f:convertDateTime pattern="dd/MM/yyyy">
+                                                            </f:convertDateTime>
+                                                        </h:outputLabel>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <!--tabla-->
+                                            <table  class="table table-striped table-bordered" style="width:100%; text-align: center;">
+                                                <thead>
+                                                    <tr>
+                                                        <th><button type="button" class="btn btn-success"><span class="fas fa-plus"></span></button></th>
+                                                        <th>SERVICIO</th>
+                                                        <th>VALOR UNITARIO</th>
+                                                        <th>IVA</th>
+                                                        <th>CANTIDAD</th>
+                                                        <th>SUB TOTAL</th>
+                                                    </tr>
+                                                </thead>
+                                                <h:form>
+                                                    <c:forEach  items="#{facturaSessionController.todosFactura()}" var="factura">
+                                                        <tr>
+                                                            <td>#{factura.idItem}</td>
+                                                            <td>#{factura.idUsuario}</td>   
+                                                            <td>#{factura.fechaFactura}</td>
+                                                            <td>#{factura.codigoBanda}</td>
+                                                            <td>#{factura.idReserva}</td>
+
+                                                        </tr>
+                                                    </c:forEach>
+                                                </h:form>
+                                            </table>
+                                            <!--Fin tabla-->
+
+                                            <div class="widget-foot">
+                                                <h:form>
+
+                                                    <div class="row text-center" >
+
+                                                        <div class="col-md-4" >
+                                                            <div class="well">
+                                                                <h:outputText style="font-size: 2em;" value="#"/>
+                                                                <h3><b>VALOR TOTAL</b></h3>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-4" style="border-left: silver 2px solid; border-right:silver 2px solid;">
+                                                            <div class="well">
+                                                                <h:outputText style="font-size: 2em;" value="#"/>
+                                                                <h3><b>TOTAL IVA</b></h3>                     
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <div class="well">
+                                                                <h:outputText style="font-size: 2em;" value="$ #"/>
+                                                                <h3><b>TOTAL</b></h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </h:form>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-7">
+                                    <div class="widget">
+                                        <div class="widget-head">
+                                            <div class="float-left">Buscar Cliente</div>
+                                            <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="widget-content container-fluid">
+                                            <!--tabla-->
+                                            <table id="tablaFacturacion" class="table table-striped table-bordered tablaBuscar" style="width:100%">
+
+                                                <thead>
+                                                    <tr>
+                                                        <th>IDENTIFICACION</th>
+                                                        <th>NOMBRE</th>
+                                                        <th>TELEFONO</th>
+                                                        <th>MULTA</th>
+                                                        <th>ACCIONES</th>	
+                                                    </tr>
+                                                </thead>
+
+                                                <ui:repeat value="#{facturaSessionController.todosCliente()}" var="cliente">
+                                                    <tr>
+                                                        <td>#{cliente.identificacion}</td>
+                                                        <td>#{cliente.nombreCliente} #{cliente.nombre2Cliente} #{cliente.apellidoCliente} #{cliente.apellido2Cliente}</td>
+                                                        <td>#{cliente.numeroMovil}</td>
+                                                         <td style="background-color: #{usuario.estado eq 1 ?'red':'blue'} " >#{usuario.estado eq 1 ?'SI':'NO'}</td>
+                                                        <td style="text-align: center;">
+                                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                                <h:form>
+                                                                    <h:commandLink class="btn btn-default" style="" >
+                                                                        <span class="fas fa-pencil-alt" style="color: green;"/>
+                                                                        <f:ajax event="click" render=":miUsuario" listener="#{usuarioSessionController.setUsuarioGestion(usuario)}"></f:ajax>
+                                                                    </h:commandLink>
+                                                                    <h:commandLink class="btn btn-default" style="" actionListener="#{usuarioSessionController.eliminarUsuario(usuario)}">
+                                                                        <span class="fas fa-trash" style="color: red; "/>
+                                                                        <!--<f:ajax event="click" render=":miUsuario" listener=""></f:ajax>-->
+                                                                    </h:commandLink>    
+
+                                                                </h:form>
+                                                                <!--                                                                <button type="button" class="btn btn-link"><span class="fas fa-pencil-alt" style="color: green;"></span></button>
+                                                                                                                                <button type="button" class="btn btn-link"><span class="fas fa-trash" style="color: red; "></span></button>-->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </ui:repeat>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-xl-5">
+                                    <div class="widget">
+                                        <div class="widget-head">
+                                            <div class="float-left">Buscar Cliente</div>
+                                            <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="widget-content container-fluid">
+                                            <!--tabla-->
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- fin contenido pagina-->
+                </div>
+                <!--Fin miga de pan-->
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
