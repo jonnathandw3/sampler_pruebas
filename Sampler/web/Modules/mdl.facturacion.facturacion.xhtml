@@ -43,8 +43,7 @@
                                         <div class="widget-content container-fluid">
 
                                             <div class="col-md-12" style="background-color:white;">
-                                                <div class="form-group row">
-
+                                                <h:form id="miCliente" class="row text-center">
                                                     <div class="col-sm-4">
                                                         <label for="fecha" style="font-size: larger; color: black; margin: 0px; " class="col-sm-12 text-center control-label">Fecha factura</label>
                                                         <!--                                                        <input class="form-control " id="fechaFactura" type="date"/>-->
@@ -54,46 +53,134 @@
                                                         </h:outputLabel>
                                                     </div>
                                                     <div class="col-sm-4">
-                                                        <label for="fecha" style="font-size: larger; color: black; margin: 0px; " class="col-sm-12 text-center control-label">Fecha factura</label>
+                                                        <label for="fecha" style="font-size: larger; color: black; margin: 0px; " class="col-sm-12 text-center control-label">Nombre cliente</label>
                                                         <!--                                                        <input class="form-control " id="fechaFactura" type="date"/>-->
-                                                        <h:outputLabel style="font-size: 2em;" class="col-sm-12 text-center control-label" value="#{facturaSessionController.now}">
-                                                            <f:convertDateTime pattern="dd/MM/yyyy">
-                                                            </f:convertDateTime>
+                                                        <h:outputLabel style="font-size: 2em;" class="col-sm-12 text-center control-label" value="#{facturaSessionController.clienteGestion.nombreCliente} #{facturaSessionController.clienteGestion.apellidoCliente}">
                                                         </h:outputLabel>
                                                     </div>
                                                     <div class="col-sm-4">
-                                                        <label for="fecha" style="font-size: larger; color: black; margin: 0px; " class="col-sm-12 text-center control-label">Fecha factura</label>
+                                                        <label for="fecha" style="font-size: larger; color: black; margin: 0px; " class="col-sm-12 text-center control-label">Nombre banda</label>
                                                         <!--                                                        <input class="form-control " id="fechaFactura" type="date"/>-->
-                                                        <h:outputLabel style="font-size: 2em;" class="col-sm-12 text-center control-label" value="#{facturaSessionController.now}">
+                                                        <h:outputLabel style="font-size: 2em;" class="col-sm-12 text-center control-label" value="#{facturaSessionController.bandaGestion.nombreBanda}">
                                                             <f:convertDateTime pattern="dd/MM/yyyy">
                                                             </f:convertDateTime>
                                                         </h:outputLabel>
                                                     </div>
-                                                </div>
+                                                </h:form>
                                             </div>
 
 
                                             <!--tabla-->
                                             <table  class="table table-striped table-bordered" style="width:100%; text-align: center;">
                                                 <thead>
-                                                    <tr>
-                                                        <th><button type="button" class="btn btn-success"><span class="fas fa-plus"></span></button></th>
-                                                        <th>SERVICIO</th>
-                                                        <th>VALOR UNITARIO</th>
-                                                        <th>IVA</th>
-                                                        <th>CANTIDAD</th>
-                                                        <th>SUB TOTAL</th>
+                                                    <tr >
+                                                        <th style="text-align: center; vertical-align: middle;">
+                                                            <!--                                                            <button type="button" class="btn btn-success">
+                                                                                                                            <span class="fas fa-plus">
+                                                            
+                                                                                                                            </span>
+                                                                                                                        </button>-->
+                                                            <button onclick="document.getElementById('modal-wrapper').style.display = 'block'" type="button" class="btn btn-success">
+                                                                <span class="fas fa-plus">
+                                                                </span>
+                                                            </button>
+
+                                                            
+
+                                                            <div id="modal-wrapper" class="modal">
+
+<!--                                                                <form class="modal-content animate" action="/action_page.php">
+
+                                                                    <div class="imgcontainer">
+                                                                        <span onclick="document.getElementById('modal-wrapper').style.display = 'none'" class="close" title="Close PopUp">&times;</span>
+                                                                        <img src="1.png" alt="Avatar" class="avatar"/>
+                                                                            <h1 style="text-align:center">Modal Popup Box</h1>
+                                                                    </div>
+
+                                                                    <div class="container">
+                                                                        <form class="form" role="form" autocomplete="off">
+
+                                                                        </form>
+
+                                                                        <button type="submit">Login</button>
+                                                                        <input type="checkbox" style="margin:26px 30px;"/> Remember me      
+                                                                            <a href="#" style="text-decoration:none; float:right; margin-right:34px; margin-top:26px;">Forgot Password ?</a>
+                                                                    </div>
+
+                                                                </form>-->
+<f:view>
+    <h:form class="modal-content animate">
+        <div class="imgcontainer">
+      <span onclick="document.getElementById('modal-wrapper').style.display='none'" class="close" title="Close PopUp">&times;</span>
+      <h1 style="text-align:center">Lista items</h1>
+    </div>
+        <h:dataTable style="text-align: center; vertical-align: middle;" class="table table-striped table-bordered tablaBuscar" value="#{facturaSessionController.todosItem()}" var="item">
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="NombreItem"/>
+                </f:facet>
+                <h:outputText value="#{item.nombreItem}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Descripcion"/>
+                </f:facet>
+                <h:outputText value="#{item.descripcion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Cantidad"/>
+                </f:facet>
+                <h:outputText value="#{item.cantidad}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="ValorUnitario"/>
+                </f:facet>
+                <h:outputText value="#{item.valorUnitario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="EstadoServicio"/>
+                </f:facet>
+                <h:outputText value="#{item.estadoServicio eq 1 ?'Desactivo':'Activo'}"/>
+            </h:column>
+            
+        </h:dataTable>
+    </h:form>
+</f:view>
+
+
+                                                            </div>
+
+
+                                                        </th>
+                                                        <th style="text-align: center; vertical-align: middle;">SERVICIO</th>
+                                                        <th style="text-align: center; vertical-align: middle;">VALOR UNITARIO</th>
+                                                        <th style="text-align: center; vertical-align: middle;">IVA</th>
+                                                        <th style="text-align: center; vertical-align: middle;">CANTIDAD</th>
+                                                        <th style="text-align: center; vertical-align: middle;">SUB TOTAL</th>
                                                     </tr>
                                                 </thead>
-                                                <h:form>
+
+                                                <h:form style="vertical-align: middle">
                                                     <c:forEach  items="#{facturaSessionController.todosFactura()}" var="factura">
                                                         <tr>
-                                                            <td>#{factura.idItem}</td>
-                                                            <td>#{factura.idUsuario}</td>   
-                                                            <td>#{factura.fechaFactura}</td>
-                                                            <td>#{factura.codigoBanda}</td>
-                                                            <td>#{factura.idReserva}</td>
+                                                            <td style="text-align: center; vertical-align: middle;">    
+                                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                                    <h:form>
+                                                                        <h:commandLink class="btn btn-default" style="" actionListener="#{usuarioSessionController.eliminarUsuario(usuario)}">
+                                                                            <span class="fas fa-trash" style="color: red; "/>
+                                                                        </h:commandLink>    
+                                                                    </h:form>
+                                                                </div>
+                                                            </td>
+                                                            <td style="text-align: center; vertical-align: middle;">#{factura.idItem.nombreItem}</td>
+                                                            <td style="text-align: center; vertical-align: middle;">#{factura.idItem.valorUnitario}</td>   
+                                                            <td style="text-align: center; vertical-align: middle;">#{factura.idItem.cantidad}</td>   
 
+                                                            <td style="text-align: center; vertical-align: middle;">#{factura.codigoBanda}</td>
+                                                            <td style="text-align: center; vertical-align: middle;">#{factura.idReserva}</td>
                                                         </tr>
                                                     </c:forEach>
                                                 </h:form>
@@ -144,12 +231,10 @@
                                         <div class="widget-content container-fluid">
                                             <!--tabla-->
                                             <table id="tablaFacturacion" class="table table-striped table-bordered tablaBuscar" style="width:100%">
-
                                                 <thead>
-                                                    <tr>
+                                                    <tr class="text-center">
                                                         <th>IDENTIFICACION</th>
                                                         <th>NOMBRE</th>
-                                                        <th>TELEFONO</th>
                                                         <th>MULTA</th>
                                                         <th>ACCIONES</th>	
                                                     </tr>
@@ -157,22 +242,20 @@
 
                                                 <ui:repeat value="#{facturaSessionController.todosCliente()}" var="cliente">
                                                     <tr>
-                                                        <td>#{cliente.identificacion}</td>
-                                                        <td>#{cliente.nombreCliente} #{cliente.nombre2Cliente} #{cliente.apellidoCliente} #{cliente.apellido2Cliente}</td>
-                                                        <td>#{cliente.numeroMovil}</td>
-                                                         <td style="background-color: #{usuario.estado eq 1 ?'red':'blue'} " >#{usuario.estado eq 1 ?'SI':'NO'}</td>
-                                                        <td style="text-align: center;">
+                                                        <td style="text-align: center; vertical-align: middle;">#{cliente.identificacion}</td>
+                                                        <td style="text-align: center; vertical-align: middle;">#{cliente.nombreCliente} #{cliente.nombre2Cliente} #{cliente.apellidoCliente} #{cliente.apellido2Cliente}</td>
+                                                        <td style="background-color: #{usuario.estado eq 1 ?'red':'green'};color: white; vertical-align: middle; text-align: center;" >#{usuario.estado eq 1 ?'SI':'NO'}</td>
+                                                        <td style="text-align: center; vertical-align: middle;">    
                                                             <div class="btn-group" role="group" aria-label="Basic example">
                                                                 <h:form>
                                                                     <h:commandLink class="btn btn-default" style="" >
                                                                         <span class="fas fa-pencil-alt" style="color: green;"/>
-                                                                        <f:ajax event="click" render=":miUsuario" listener="#{usuarioSessionController.setUsuarioGestion(usuario)}"></f:ajax>
+                                                                        <f:ajax event="click" render=":miCliente" listener="#{facturaSessionController.setClienteGestion(cliente)}"></f:ajax>
                                                                     </h:commandLink>
                                                                     <h:commandLink class="btn btn-default" style="" actionListener="#{usuarioSessionController.eliminarUsuario(usuario)}">
                                                                         <span class="fas fa-trash" style="color: red; "/>
                                                                         <!--<f:ajax event="click" render=":miUsuario" listener=""></f:ajax>-->
                                                                     </h:commandLink>    
-
                                                                 </h:form>
                                                                 <!--                                                                <button type="button" class="btn btn-link"><span class="fas fa-pencil-alt" style="color: green;"></span></button>
                                                                                                                                 <button type="button" class="btn btn-link"><span class="fas fa-trash" style="color: red; "></span></button>-->
@@ -184,11 +267,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-xl-5">
                                     <div class="widget">
                                         <div class="widget-head">
-                                            <div class="float-left">Buscar Cliente</div>
+                                            <div class="float-left">Agregar cliente</div>
                                             <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
                                                 <a href="#" class="wclose"><i class="fa fa-times"></i></a>
                                             </div>
@@ -196,7 +279,69 @@
                                         </div>
                                         <div class="widget-content container-fluid">
                                             <!--tabla-->
-                                            
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-7">
+                                    <div class="widget">
+                                        <div class="widget-head">
+                                            <div class="float-left">Buscar banda</div>
+                                            <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="widget-content container-fluid">
+                                            <!--tabla-->
+                                            <table id="tablaFacturacion" class="table table-striped table-bordered tablaBuscar" style="width:100%">
+                                                <thead>
+                                                    <tr class="text-center">
+                                                        <th>CODIGO BANDA</th>
+                                                        <th>NOMBRE BANDA</th>
+                                                        <th>ACCIONES</th>
+                                                    </tr>
+                                                </thead>
+                                                <ui:repeat value="#{facturaSessionController.todosBanda()}" var="banda">
+                                                    <tr>
+                                                        <td style="text-align: center; vertical-align: middle;">#{banda.codigoBanda}</td>
+                                                        <td style="text-align: center; vertical-align: middle;">#{banda.nombreBanda}</td>
+                                                        <td style="text-align: center; vertical-align: middle;">    
+                                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                                <h:form>
+                                                                    <h:commandLink class="btn btn-default" style="" >
+                                                                        <span class="fas fa-pencil-alt" style="color: green;"/>
+                                                                        <f:ajax event="click" render=":miCliente" listener="#{facturaSessionController.setBandaGestion(banda)}"></f:ajax>
+                                                                    </h:commandLink>
+                                                                    <h:commandLink class="btn btn-default" style="" actionListener="#{usuarioSessionController.eliminarUsuario(usuario)}">
+                                                                        <span class="fas fa-trash" style="color: red; "/>
+                                                                        <!--<f:ajax event="click" render=":miUsuario" listener=""></f:ajax>-->
+                                                                    </h:commandLink>    
+                                                                </h:form>
+                                                                <!--                                                                <button type="button" class="btn btn-link"><span class="fas fa-pencil-alt" style="color: green;"></span></button>
+                                                                                                                                <button type="button" class="btn btn-link"><span class="fas fa-trash" style="color: red; "></span></button>-->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </ui:repeat>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-5">
+                                    <div class="widget">
+                                        <div class="widget-head">
+                                            <div class="float-left">Agregar banda</div>
+                                            <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="widget-content container-fluid">
+                                            <!--tabla-->
+
                                         </div>
                                     </div>
                                 </div>
