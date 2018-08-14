@@ -32,15 +32,9 @@ $(document).ready(function () {
             "zeroRecords": "No encontrado - sorry",
             "info": "Mostrando pagina _PAGE_ de _PAGES_",
             "infoEmpty": "No hay registro disponible",
-            "search": "Buscar:",
-            "paginate": {
-                "first": "Primero",
-                "last": "Ultimo",
-                "next": "Siguiente",
-                "previous": "Anterior"
-            },
+            "search": "Buscar:"
         },
-        dom: 'Bfrtip',
+        dom: 'f',
         buttons: [
             
         ]

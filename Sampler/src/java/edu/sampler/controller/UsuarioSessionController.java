@@ -11,6 +11,8 @@ import edu.sampler.entity.Usuario;
 import edu.sampler.facade.RolFacadeLocal;
 import edu.sampler.facade.TipoDocumentoFacadeLocal;
 import edu.sampler.facade.UsuarioFacadeLocal;
+import edu.sampler.model.JavaMail;
+import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -19,6 +21,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -58,6 +61,11 @@ public class UsuarioSessionController implements Serializable {
     public UsuarioSessionController() {
     }
 
+    public void cerrarSession() throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml?faces-redirect=true");
+    }
+
     public List<Usuario> todosUsuarios() {
         return usuarioFacadeLocal.findAll();
     }
@@ -65,7 +73,7 @@ public class UsuarioSessionController implements Serializable {
     public List<Rol> todosRoles() {
         return rolFacadeLocal.findAll();
     }
-    
+
     public List<TipoDocumento> todosTiposDocumento() {
         return tipoDocumentoFacadeLocal.findAll();
     }
@@ -106,19 +114,17 @@ public class UsuarioSessionController implements Serializable {
         Usuario usuarioNuevo = new Usuario();
 
         String usu = "usuario";
-            String usuRed = usu.substring(0, 1) + apellido;
-            usuRed = usuRed.toUpperCase();
+        String usuRed = usu.substring(0, 1) + apellido;
+        usuRed = usuRed.toUpperCase();
 
-            double numeroAleatori = Math.random() * 100000;
-            int claveInt = (int) numeroAleatori;
-            String clave = "" + claveInt;
-            
+        double numeroAleatori = Math.random() * 100000;
+        int claveInt = (int) numeroAleatori;
+        String clave = "" + claveInt;
+
         java.util.Date dates = new java.util.Date();
-                long fechaSis = dates.getTime();
-                Date now = new Date(fechaSis);
+        long fechaSis = dates.getTime();
+        Date now = new Date(fechaSis);
 
-        
-              
         usuarioNuevo.setUsuario(usuRed);
         usuarioNuevo.setPassword(clave);
         usuarioNuevo.setFechaCumple(date);
@@ -132,7 +138,8 @@ public class UsuarioSessionController implements Serializable {
         usuarioNuevo.setTipoDocumento(tipoDocumentoFacadeLocal.find(Integer.parseInt(tipoDocumento)));
         usuarioNuevo.setDocumento(documento);
         usuarioNuevo.setIdRol(Integer.parseInt(idRol));
-        
+
+        JavaMail.sendClaves(usuarioNuevo.getEmail(), usuarioNuevo.getNombreUsuario() + " " + usuarioNuevo.getApellidoUsuario(), usuarioNuevo.getUsuario(), usuarioNuevo.getPassword());
         usuarioFacadeLocal.create(usuarioNuevo);
         this.usuario = "";
         this.clave = "";
@@ -150,7 +157,7 @@ public class UsuarioSessionController implements Serializable {
         return null;
 
     }
-    
+
     public Usuario getUsuarioLogin() {
         return usuarioLogin;
     }
