@@ -31,7 +31,7 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
         super(Usuario.class);
     }
     
-  @Override
+@Override
     public Usuario validarUsuarioLogueado(String usuario, String clave) {
         Usuario usuarioLogin = null;
         try {

@@ -20,6 +20,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -38,19 +40,26 @@ public class HistoricoInventario implements Serializable {
     @Column(name = "idhistorico_inventario")
     private Integer idhistoricoInventario;
     @Basic(optional = false)
-    @Column(name = "id_producto")
-    private int idProducto;
+    @NotNull
+    @Column(name = "idactivoproducto")
+    private int idactivoproducto;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "cantidad")
     private int cantidad;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "estadohistorico_inventario")
     private String estadohistoricoInventario;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "fechahistorico_inventario")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechahistoricoInventario;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "tipo")
     private String tipo;
     @JoinColumn(name = "id_sede", referencedColumnName = "idsede")
@@ -64,9 +73,9 @@ public class HistoricoInventario implements Serializable {
         this.idhistoricoInventario = idhistoricoInventario;
     }
 
-    public HistoricoInventario(Integer idhistoricoInventario, int idProducto, int cantidad, String estadohistoricoInventario, Date fechahistoricoInventario, String tipo) {
+    public HistoricoInventario(Integer idhistoricoInventario, int idactivoproducto, int cantidad, String estadohistoricoInventario, Date fechahistoricoInventario, String tipo) {
         this.idhistoricoInventario = idhistoricoInventario;
-        this.idProducto = idProducto;
+        this.idactivoproducto = idactivoproducto;
         this.cantidad = cantidad;
         this.estadohistoricoInventario = estadohistoricoInventario;
         this.fechahistoricoInventario = fechahistoricoInventario;
@@ -81,12 +90,12 @@ public class HistoricoInventario implements Serializable {
         this.idhistoricoInventario = idhistoricoInventario;
     }
 
-    public int getIdProducto() {
-        return idProducto;
+    public int getIdactivoproducto() {
+        return idactivoproducto;
     }
 
-    public void setIdProducto(int idProducto) {
-        this.idProducto = idProducto;
+    public void setIdactivoproducto(int idactivoproducto) {
+        this.idactivoproducto = idactivoproducto;
     }
 
     public int getCantidad() {

@@ -17,6 +17,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -35,6 +37,8 @@ public class TipoItem implements Serializable {
     @Column(name = "idtipoitem")
     private Integer idtipoitem;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "nombre_item")
     private String nombreItem;
     @OneToMany(mappedBy = "idTipoItem")

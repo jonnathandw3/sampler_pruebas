@@ -23,6 +23,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -41,30 +43,37 @@ public class Sede implements Serializable {
     @Column(name = "idsede")
     private Integer idsede;
     @Basic(optional = false)
-    @Column(name = "sede")
-    private String sede;
-    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "nombre_sede")
     private String nombreSede;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "direccion")
     private String direccion;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "telefono")
     private int telefono;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "hora_funcionamiento")
     @Temporal(TemporalType.TIME)
     private Date horaFuncionamiento;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "numero_salas")
     private int numeroSalas;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "estado_sede")
     private int estadoSede;
     @Basic(optional = false)
-    @Column(name = "disponilidad")
-    private String disponilidad;
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "descripcion")
+    private String descripcion;
     @JoinColumn(name = "ciudad", referencedColumnName = "iddane")
     @ManyToOne(optional = false)
     private DemograficoDane ciudad;
@@ -82,16 +91,15 @@ public class Sede implements Serializable {
         this.idsede = idsede;
     }
 
-    public Sede(Integer idsede, String sede, String nombreSede, String direccion, int telefono, Date horaFuncionamiento, int numeroSalas, int estadoSede, String disponilidad) {
+    public Sede(Integer idsede, String nombreSede, String direccion, int telefono, Date horaFuncionamiento, int numeroSalas, int estadoSede, String descripcion) {
         this.idsede = idsede;
-        this.sede = sede;
         this.nombreSede = nombreSede;
         this.direccion = direccion;
         this.telefono = telefono;
         this.horaFuncionamiento = horaFuncionamiento;
         this.numeroSalas = numeroSalas;
         this.estadoSede = estadoSede;
-        this.disponilidad = disponilidad;
+        this.descripcion = descripcion;
     }
 
     public Integer getIdsede() {
@@ -100,14 +108,6 @@ public class Sede implements Serializable {
 
     public void setIdsede(Integer idsede) {
         this.idsede = idsede;
-    }
-
-    public String getSede() {
-        return sede;
-    }
-
-    public void setSede(String sede) {
-        this.sede = sede;
     }
 
     public String getNombreSede() {
@@ -158,12 +158,12 @@ public class Sede implements Serializable {
         this.estadoSede = estadoSede;
     }
 
-    public String getDisponilidad() {
-        return disponilidad;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDisponilidad(String disponilidad) {
-        this.disponilidad = disponilidad;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public DemograficoDane getCiudad() {
