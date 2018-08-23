@@ -19,6 +19,7 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -146,6 +147,7 @@ public class UsuarioSessionController implements Serializable {
 
         JavaMail.sendClaves(usuarioNuevo.getEmail(), usuarioNuevo.getNombreUsuario() + " " + usuarioNuevo.getApellidoUsuario(), usuarioNuevo.getUsuario(), usuarioNuevo.getPassword());
         usuarioFacadeLocal.create(usuarioNuevo);
+        
         this.usuario = "";
         this.clave = "";
         this.fechaCumple = "";
@@ -184,6 +186,7 @@ public class UsuarioSessionController implements Serializable {
         }
 
     }
+
     public void leerArchivoUsuarios() throws IOException, ParseException {
 
         InputStreamReader reader = new InputStreamReader(cargaArchivo.getInputStream());
@@ -195,14 +198,11 @@ public class UsuarioSessionController implements Serializable {
             String[] lDatos = line.split(",");
             Usuario usuFor = new Usuario();
 
-            LocalDate fecha = LocalDate.parse(lDatos[0], DateTimeFormatter.ISO_DATE);
-            Date date = java.sql.Date.valueOf(fecha);
-
-//            String datee = lDatos[0].substring(0, 10);
-//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MMM-dd");
-//            Date date = formatter.parse(datee);
-
-
+//            LocalDate fecha = LocalDate.parse(lDatos[0], DateTimeFormatter.ISO_DATE);
+//            Date date = java.sql.Date.valueOf(fecha);
+            String datee = lDatos[3].substring(0, 10);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = formatter.parse(datee);
 
             usuFor.setFechaCumple(date);
             usuFor.setEmail(lDatos[6]);
@@ -214,10 +214,26 @@ public class UsuarioSessionController implements Serializable {
             usuFor.setDocumento(lDatos[12]);
             usuFor.setIdRol(Integer.parseInt(lDatos[13]));
 
-            ingresarNuevoUsuario(usuFor);
+            String usuRed = usuFor.getNombreUsuario().substring(0, 1) + usuFor.getApellidoUsuario();
+            usuFor.setUsuario(usuRed.toUpperCase());
+
+            double numeroAleatori = Math.random() * 100000;
+            int claveInt = (int) numeroAleatori;
+            usuFor.setPassword(Integer.toString(claveInt));
+
+            java.util.Date dates = new java.util.Date();
+            long fechaSis = dates.getTime();
+            Date now = new Date(fechaSis);
+            usuFor.setFechaCreacion(now);
+
+            usuFor.setEstado('1');
+
+            JavaMail.sendClaves(usuFor.getEmail(), usuFor.getNombreUsuario() + " " + usuFor.getApellidoUsuario(), usuFor.getUsuario(), usuFor.getPassword());
+            usuarioFacadeLocal.create(usuFor);
 
         }
     }
+
     public Usuario getUsuarioLogin() {
         return usuarioLogin;
     }
