@@ -23,6 +23,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -41,34 +43,52 @@ public class Cliente implements Serializable {
     @Column(name = "idcliente")
     private Integer idcliente;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "nombre_cliente")
     private String nombreCliente;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "nombre2_cliente")
     private String nombre2Cliente;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "apellido_cliente")
     private String apellidoCliente;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "apellido2_cliente")
     private String apellido2Cliente;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "identificacion")
     private String identificacion;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "fecha_nacimiento")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaNacimiento;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "numero_fijo")
     private int numeroFijo;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "numero_movil")
-    private int numeroMovil;
+    private long numeroMovil;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "email")
     private String email;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "multa")
     private String multa;
     @JoinColumn(name = "tipo_cliente", referencedColumnName = "id")
@@ -86,7 +106,7 @@ public class Cliente implements Serializable {
         this.idcliente = idcliente;
     }
 
-    public Cliente(Integer idcliente, String nombreCliente, String nombre2Cliente, String apellidoCliente, String apellido2Cliente, String identificacion, Date fechaNacimiento, int numeroFijo, int numeroMovil, String email, String multa) {
+    public Cliente(Integer idcliente, String nombreCliente, String nombre2Cliente, String apellidoCliente, String apellido2Cliente, String identificacion, Date fechaNacimiento, int numeroFijo, long numeroMovil, String email, String multa) {
         this.idcliente = idcliente;
         this.nombreCliente = nombreCliente;
         this.nombre2Cliente = nombre2Cliente;
@@ -164,11 +184,11 @@ public class Cliente implements Serializable {
         this.numeroFijo = numeroFijo;
     }
 
-    public int getNumeroMovil() {
+    public long getNumeroMovil() {
         return numeroMovil;
     }
 
-    public void setNumeroMovil(int numeroMovil) {
+    public void setNumeroMovil(long numeroMovil) {
         this.numeroMovil = numeroMovil;
     }
 
