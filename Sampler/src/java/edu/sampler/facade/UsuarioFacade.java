@@ -69,4 +69,16 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
         }
         return usuarioTest;
     }
+        @Override
+    public int cantidadUsuario(int estado) {
+        int cantidad = 0;
+        try {
+            Query q = em.createNativeQuery("SELECT COUNT(usuario.idusuario) FROM `usuario` WHERE usuario.estado = ?");
+            q.setParameter(1, estado);
+            long cantidadL = (long) q.getSingleResult();
+            cantidad = (int) cantidadL;
+        } catch (Exception e) {
+        }
+        return cantidad;
+    }
 }
