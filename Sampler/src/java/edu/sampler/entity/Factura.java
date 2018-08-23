@@ -20,6 +20,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -38,19 +40,25 @@ public class Factura implements Serializable {
     @Column(name = "idfactura")
     private Integer idfactura;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "cantidad")
     private int cantidad;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "fecha_factura")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaFactura;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "codigo_banda")
     private String codigoBanda;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "ivatotal")
     private double ivatotal;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "valortotal")
     private double valortotal;
     @JoinColumn(name = "id_item", referencedColumnName = "iditem")

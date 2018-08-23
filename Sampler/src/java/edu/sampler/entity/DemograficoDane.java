@@ -18,6 +18,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -36,15 +38,21 @@ public class DemograficoDane implements Serializable {
     @Column(name = "iddane")
     private Integer iddane;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "codigo_dept")
     private int codigoDept;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "codigo_mpio")
     private int codigoMpio;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "nom_mpio")
     private String nomMpio;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "nom_dept")
     private String nomDept;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ciudad")

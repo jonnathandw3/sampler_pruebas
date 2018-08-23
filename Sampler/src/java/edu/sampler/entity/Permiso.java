@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -35,21 +36,27 @@ public class Permiso implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @NotNull
     @Column(name = "idpermiso")
     private Integer idpermiso;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id_rol")
     private int idRol;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "crear")
     private boolean crear;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "borar")
     private boolean borar;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "actualizar")
     private boolean actualizar;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "fecha_modificacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaModificacion;

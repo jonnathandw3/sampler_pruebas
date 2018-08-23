@@ -21,6 +21,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -39,12 +41,17 @@ public class Banda implements Serializable {
     @Column(name = "idbanda")
     private Integer idbanda;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "codigo_banda")
     private String codigoBanda;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "nombre_banda")
     private String nombreBanda;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "fecha_resgistro")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaResgistro;

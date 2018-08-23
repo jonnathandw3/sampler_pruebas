@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -35,15 +37,21 @@ public class Activo implements Serializable {
     @Column(name = "idactivo")
     private Integer idactivo;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "codigo_activo")
     private String codigoActivo;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "cantidad")
     private int cantidad;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "valor")
     private double valor;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "nombre_activo")
     private String nombreActivo;
     @JoinColumn(name = "id_sede", referencedColumnName = "idsede")

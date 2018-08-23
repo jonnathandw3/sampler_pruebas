@@ -23,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -40,8 +41,10 @@ public class Item implements Serializable {
     @Basic(optional = false)
     @Column(name = "iditem")
     private Integer iditem;
+    @Size(max = 50)
     @Column(name = "nombre_item")
     private String nombreItem;
+    @Size(max = 200)
     @Column(name = "descripcion")
     private String descripcion;
     @Column(name = "cantidad")
@@ -49,14 +52,12 @@ public class Item implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "valor_unitario")
     private Double valorUnitario;
-    @Basic(optional = false)
     @Column(name = "fecha_inicio")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaInicio;
     @Column(name = "fecha_final")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaFinal;
-    @Basic(optional = false)
     @Column(name = "estado_servicio")
     private Character estadoServicio;
     @JoinColumn(name = "id_tipo_item", referencedColumnName = "idtipoitem")
@@ -70,12 +71,6 @@ public class Item implements Serializable {
 
     public Item(Integer iditem) {
         this.iditem = iditem;
-    }
-
-    public Item(Integer iditem, Date fechaInicio, Character estadoServicio) {
-        this.iditem = iditem;
-        this.fechaInicio = fechaInicio;
-        this.estadoServicio = estadoServicio;
     }
 
     public Integer getIditem() {
