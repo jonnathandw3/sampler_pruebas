@@ -2,8 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -23,8 +22,8 @@
         <link href="../Resources/css/dataTables.bootstrap4.min.css" rel="stylesheet"/>
         <link href="../Resources/css/jquery.dataTables.min.css" rel="stylesheet"/>
         <link href="../Resources/css/buttons.dataTables.min.css" rel="stylesheet"/>
-        
-   
+
+
     </h:head>
     <h:body>
         <div id="top">
@@ -173,6 +172,8 @@
         <!-- Daterangepicker -->
         <script src="../Resources/js/custom.js"></script> <!-- Custom codes -->
         <!-- Datatables -->
+        <script src="../Resources/js/jquery.dataTables.min.js"></script> <!-- Custom codes -->
+        <script src="../Resources/js/dataTables.bootstrap4.min.js"></script> <!-- Custom codes -->
         <script src="../Resources/js/dataTables.bootstrap4.min.js"></script> <!-- Custom codes -->
         <script src="../Resources/js/jquery.dataTables.min.js"></script> <!-- Custom codes -->
         <script src="../Resources/js/dataTables.buttons.min.js"></script> <!-- Custom codes -->
@@ -181,7 +182,12 @@
         <script src="../Resources/js/pdfmake.min.js"></script> <!-- Custom codes -->
         <script src="../Resources/js/vfs_fonts.js"></script> <!-- Custom codes -->
         <script src="../Resources/js/buttons.html5.min.js"></script> <!-- Custom codes -->
-        <script src="../Resources/js/buttons.print.min.js"></script> <!-- Custom codes -->	
+        <script src="../Resources/js/buttons.print.min.js"></script> <!-- Custom codes -->
+        <!-- CANVAS -->
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
+        <ui:insert name="scriptsAdicionales">
+
+        </ui:insert>
     </h:body>
 </html>
