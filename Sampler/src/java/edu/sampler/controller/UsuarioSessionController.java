@@ -8,7 +8,11 @@ package edu.sampler.controller;
 import edu.sampler.entity.Rol;
 import edu.sampler.entity.TipoDocumento;
 import edu.sampler.entity.Usuario;
+import edu.sampler.facade.ItemFacadeLocal;
+import edu.sampler.facade.ReservaFacadeLocal;
 import edu.sampler.facade.RolFacadeLocal;
+import edu.sampler.facade.SalaFacadeLocal;
+import edu.sampler.facade.SedeFacadeLocal;
 import edu.sampler.facade.TipoDocumentoFacadeLocal;
 import edu.sampler.facade.UsuarioFacadeLocal;
 import javax.inject.Named;
@@ -37,6 +41,14 @@ public class UsuarioSessionController implements Serializable {
     RolFacadeLocal rolFacadeLocal;
     @EJB
     TipoDocumentoFacadeLocal tipoDocumentoFacadeLocal;
+    @EJB
+    SedeFacadeLocal sedeFacadeLocal;
+    @EJB
+    SalaFacadeLocal salaFacadeLocal;
+    @EJB
+    ReservaFacadeLocal reservaFacadeLocal;
+    @EJB
+    ItemFacadeLocal itemFacadeLocal;
 
     private Usuario usuarioLogin;
     private Usuario usuarioGestion;
@@ -58,6 +70,39 @@ public class UsuarioSessionController implements Serializable {
     public UsuarioSessionController() {
     }
 
+    /*INICIO CANVAS JS*/
+    public float cantidadUsuario(int estado) {
+        int cantidad = usuarioFacadeLocal.cantidadUsuario(estado);
+        int cantidadTotal = usuarioFacadeLocal.count();
+        float var = (cantidad * 100) / cantidadTotal;
+        return var;
+    }
+
+    public float cantidadSede(int estado_sede) {
+        int cantidad = sedeFacadeLocal.cantidadSede(estado_sede);
+        int cantidadTotal = sedeFacadeLocal.count();
+        float var = (cantidad * 100) / cantidadTotal;
+        return var;
+    }
+
+    public float cantidadSala(int estado_sala) {
+        int cantidad = salaFacadeLocal.cantidadSala(estado_sala);
+        int cantidadTotal = salaFacadeLocal.count();
+        float var = (cantidad * 100) / cantidadTotal;
+        return var;
+    }
+
+    public float cantidadReserva(int sala) {
+        int cantidad = reservaFacadeLocal.cantidadReserva(sala);
+        return cantidad;
+    }
+    
+    public float cantidadProduto(int nombre_item) {
+        int cantidad = itemFacadeLocal.cantidadProducto(nombre_item);
+        return cantidad;
+    }
+
+    /*FIN CANVAS JS*/
     public List<Usuario> todosUsuarios() {
         return usuarioFacadeLocal.findAll();
     }
@@ -65,7 +110,7 @@ public class UsuarioSessionController implements Serializable {
     public List<Rol> todosRoles() {
         return rolFacadeLocal.findAll();
     }
-    
+
     public List<TipoDocumento> todosTiposDocumento() {
         return tipoDocumentoFacadeLocal.findAll();
     }
@@ -106,19 +151,17 @@ public class UsuarioSessionController implements Serializable {
         Usuario usuarioNuevo = new Usuario();
 
         String usu = "usuario";
-            String usuRed = usu.substring(0, 1) + apellido;
-            usuRed = usuRed.toUpperCase();
+        String usuRed = usu.substring(0, 1) + apellido;
+        usuRed = usuRed.toUpperCase();
 
-            double numeroAleatori = Math.random() * 100000;
-            int claveInt = (int) numeroAleatori;
-            String clave = "" + claveInt;
-            
+        double numeroAleatori = Math.random() * 100000;
+        int claveInt = (int) numeroAleatori;
+        String clave = "" + claveInt;
+
         java.util.Date dates = new java.util.Date();
-                long fechaSis = dates.getTime();
-                Date now = new Date(fechaSis);
+        long fechaSis = dates.getTime();
+        Date now = new Date(fechaSis);
 
-        
-              
         usuarioNuevo.setUsuario(usuRed);
         usuarioNuevo.setPassword(clave);
         usuarioNuevo.setFechaCumple(date);
@@ -132,7 +175,7 @@ public class UsuarioSessionController implements Serializable {
         usuarioNuevo.setTipoDocumento(tipoDocumentoFacadeLocal.find(Integer.parseInt(tipoDocumento)));
         usuarioNuevo.setDocumento(documento);
         usuarioNuevo.setIdRol(Integer.parseInt(idRol));
-        
+
         usuarioFacadeLocal.create(usuarioNuevo);
         this.usuario = "";
         this.clave = "";
@@ -150,7 +193,7 @@ public class UsuarioSessionController implements Serializable {
         return null;
 
     }
-    
+
     public Usuario getUsuarioLogin() {
         return usuarioLogin;
     }
