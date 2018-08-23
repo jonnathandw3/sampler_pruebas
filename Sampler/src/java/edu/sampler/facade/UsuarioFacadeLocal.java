@@ -33,5 +33,7 @@ public interface UsuarioFacadeLocal {
     public Usuario consultaUsuario(String correo, String documento);
 
     public Usuario validarUsuarioLogueado(String usuario, String clave);
+
+    public int cantidadUsuario(int estado);
     
 }
