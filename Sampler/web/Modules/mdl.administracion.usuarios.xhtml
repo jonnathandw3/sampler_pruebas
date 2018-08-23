@@ -296,12 +296,57 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!--CANVAS JS-->
+                                <div class="col-xl-12">
+                                    <div class="widget">
+                                        <div class="widget-head">
+                                            <div class="float-left">Estadistica</div>
+                                            <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="wsettings"><i class="fa fa-wrench"></i></a>  <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="widget-content container-fluid">
+                                            <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+                                        </div>  
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <!-- fin contenido pagina-->
                 </div>
                 <!--Fin miga de pan-->
+            </ui:define>
+            <ui:define name="scriptsAdicionales">
+                <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+                <script>
+                    alert('Bienvenido');
+                    window.onload = function () {
+                        var chart = new CanvasJS.Chart("chartContainer", {
+                            theme: "light2", // "light1", "light2", "dark1", "dark2"
+                            exportEnabled: true,
+                            animationEnabled: true,
+                            title: {
+                                text: "Usuarios Actuales"
+                            },
+                            data: [{
+                                    type: "pie",
+                                    startAngle: 25,
+                                    toolTipContent: "<b>{label}</b>: {y}%",
+                                    showInLegend: "true",
+                                    legendText: "{label}",
+                                    indexLabelFontSize: 16,
+                                    indexLabel: "{label} - {y}%",
+                                    dataPoints: [
+                                        {y: #{usuarioSessionController.cantidadUsuario(1)}, label: "Activo"},
+                                        {y: #{usuarioSessionController.cantidadUsuario(2)}, label: "Inactivos"}
+                                    ]
+                                }]
+                        });
+                        chart.render();
+                    };
+                </script>
             </ui:define>
         </ui:composition>
     </body>
