@@ -9,6 +9,7 @@ import edu.sampler.entity.Reserva;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +28,19 @@ public class ReservaFacade extends AbstractFacade<Reserva> implements ReservaFac
 
     public ReservaFacade() {
         super(Reserva.class);
+    }
+    
+    @Override
+    public int cantidadReserva(int sala) {
+        int cantidad = 0;
+        try {
+            Query q = em.createNativeQuery("SELECT COUNT(reserva.sala) FROM `reserva` WHERE reserva.sala = ?");
+            q.setParameter(1, sala);
+            long cantidadL = (long) q.getSingleResult();
+            cantidad = (int) cantidadL;
+        } catch (Exception e) {
+        }
+        return cantidad;
     }
     
 }

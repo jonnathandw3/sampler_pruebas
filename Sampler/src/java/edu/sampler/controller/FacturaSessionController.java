@@ -5,9 +5,11 @@
  */
 package edu.sampler.controller;
 
+import edu.sampler.entity.Banda;
 import edu.sampler.entity.Cliente;
 import edu.sampler.entity.Factura;
 import edu.sampler.entity.Item;
+import edu.sampler.facade.BandaFacadeLocal;
 import edu.sampler.facade.ClienteFacadeLocal;
 import edu.sampler.facade.FacturaFacadeLocal;
 import edu.sampler.facade.ItemFacadeLocal;
@@ -36,13 +38,21 @@ public class FacturaSessionController implements Serializable {
     ItemFacadeLocal ItemFacadeLocal;
     @EJB
     ClienteFacadeLocal ClienteFacadeLocal;
+    @EJB
+    BandaFacadeLocal BandaFacadeLocal; 
     
+    private Cliente clienteGestion;
+    private Banda bandaGestion;
     
     private java.util.Date dates = new java.util.Date();
                 private long fechaSis = dates.getTime();
                 private Date now = new Date(fechaSis);
     
     public FacturaSessionController() {
+    }
+    
+    public List<Banda> todosBanda(){
+    return BandaFacadeLocal.findAll();
     }
     
     public List<Factura> todosFactura(){
@@ -81,6 +91,22 @@ public class FacturaSessionController implements Serializable {
 
     public void setNow(Date now) {
         this.now = now;
+    }
+
+    public Cliente getClienteGestion() {
+        return clienteGestion;
+    }
+
+    public void setClienteGestion(Cliente clienteGestion) {
+        this.clienteGestion = clienteGestion;
+    }
+
+    public Banda getBandaGestion() {
+        return bandaGestion;
+    }
+
+    public void setBandaGestion(Banda bandaGestion) {
+        this.bandaGestion = bandaGestion;
     }
     
     

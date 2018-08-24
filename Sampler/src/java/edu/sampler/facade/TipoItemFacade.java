@@ -9,6 +9,7 @@ import edu.sampler.entity.TipoItem;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +29,7 @@ public class TipoItemFacade extends AbstractFacade<TipoItem> implements TipoItem
     public TipoItemFacade() {
         super(TipoItem.class);
     }
-    
+   
+
 }
+

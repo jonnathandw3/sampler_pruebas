@@ -5,6 +5,7 @@
  */
 package edu.sampler.controller;
 
+import edu.sampler.entity.Item;
 import edu.sampler.entity.Rol;
 import edu.sampler.entity.TipoDocumento;
 import edu.sampler.entity.Usuario;
@@ -15,14 +16,24 @@ import edu.sampler.facade.SalaFacadeLocal;
 import edu.sampler.facade.SedeFacadeLocal;
 import edu.sampler.facade.TipoDocumentoFacadeLocal;
 import edu.sampler.facade.UsuarioFacadeLocal;
+import edu.sampler.model.JavaMail;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -32,9 +43,6 @@ import javax.ejb.EJB;
 @SessionScoped
 public class UsuarioSessionController implements Serializable {
 
-    /**
-     * Creates a new instance of UsuarioSessionController
-     */
     @EJB
     UsuarioFacadeLocal usuarioFacadeLocal;
     @EJB
@@ -53,6 +61,7 @@ public class UsuarioSessionController implements Serializable {
     private Usuario usuarioLogin;
     private Usuario usuarioGestion;
     private Usuario usuarioEliminar;
+    private Usuario usutest;
     private Rol rolGestion;
     private String usuario;
     private String clave;
@@ -66,8 +75,14 @@ public class UsuarioSessionController implements Serializable {
     private String tipoDocumento;
     private String documento;
     private String idRol;
+    private Part cargaArchivo;
 
     public UsuarioSessionController() {
+    }
+
+    public void cerrarSession() throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml?faces-redirect=true");
     }
 
     /*INICIO CANVAS JS*/
@@ -96,11 +111,16 @@ public class UsuarioSessionController implements Serializable {
         int cantidad = reservaFacadeLocal.cantidadReserva(sala);
         return cantidad;
     }
-    
-    public float cantidadProduto(int nombre_item) {
-        int cantidad = itemFacadeLocal.cantidadProducto(nombre_item);
-        return cantidad;
-    }
+
+    /*public String cantidadProduto(int nombre_item) {
+        List<Item> cantidadProductos = itemFacadeLocal.findAll();
+        String arreglo = "";
+        for (Item cantidad : cantidadProductos) {
+            arreglo = arreglo + "{y: " + cantidad.getCantidad() + ", label: '" + cantidad.getNombreItem() + "'}, "
+        }
+        String arregloRetorno = arreglo.substring(0, arreglo.length() - 1);
+        return arregloRetorno;
+    }*/
 
     /*FIN CANVAS JS*/
     public List<Usuario> todosUsuarios() {
@@ -144,13 +164,13 @@ public class UsuarioSessionController implements Serializable {
         return salida;
     }
 
-    public String ingresarNuevoUsuario() {
+    public String ingresarNuevoUsuario(Usuario usuario) {
 
         LocalDate fecha = LocalDate.parse(fechaCumple, DateTimeFormatter.ISO_DATE);
         Date date = java.sql.Date.valueOf(fecha);
         Usuario usuarioNuevo = new Usuario();
 
-        String usu = "usuario";
+        String usu = nombre;
         String usuRed = usu.substring(0, 1) + apellido;
         usuRed = usuRed.toUpperCase();
 
@@ -166,7 +186,7 @@ public class UsuarioSessionController implements Serializable {
         usuarioNuevo.setPassword(clave);
         usuarioNuevo.setFechaCumple(date);
         usuarioNuevo.setFechaCreacion(now);
-        usuarioNuevo.setEstado('1');
+        /*usuarioNuevo.setEstado("1");*/
         usuarioNuevo.setEmail(correo);
         usuarioNuevo.setNombreUsuario(nombre);
         usuarioNuevo.setNombre2Usuario(nombre2);
@@ -176,7 +196,9 @@ public class UsuarioSessionController implements Serializable {
         usuarioNuevo.setDocumento(documento);
         usuarioNuevo.setIdRol(Integer.parseInt(idRol));
 
+        JavaMail.sendClaves(usuarioNuevo.getEmail(), usuarioNuevo.getNombreUsuario() + " " + usuarioNuevo.getApellidoUsuario(), usuarioNuevo.getUsuario(), usuarioNuevo.getPassword());
         usuarioFacadeLocal.create(usuarioNuevo);
+
         this.usuario = "";
         this.clave = "";
         this.fechaCumple = "";
@@ -194,12 +216,113 @@ public class UsuarioSessionController implements Serializable {
 
     }
 
+    public void validateFile(FacesContext ctx, UIComponent comp, Object value) {
+
+        Part file = (Part) value;
+
+        String contenido = "";
+
+        if (file.getSize() > 20480) {
+            contenido = "Muy grande ";
+        }
+
+        if ((!"text/csv".equals(file.getContentType())) && (!"application/vnd.ms-excel".equals(file.getContentType()))) {
+            contenido = contenido + " Tipo no permitido";
+        }
+
+        if (!contenido.equals("")) {
+            FacesMessage infoMensaje = new FacesMessage(FacesMessage.SEVERITY_INFO, "Archivo", contenido);
+
+            FacesContext.getCurrentInstance().addMessage("formularioFile", infoMensaje);
+        }
+
+    }
+
+    public void leerArchivoUsuarios() throws IOException, ParseException {
+
+        InputStreamReader reader = new InputStreamReader(cargaArchivo.getInputStream());
+        BufferedReader br = new BufferedReader(reader);
+        String line;
+
+        while ((line = br.readLine()) != null) {
+            line = line.replace("\"", "");
+            String[] lDatos = line.split(",");
+            Usuario usuFor = new Usuario();
+
+//            LocalDate fecha = LocalDate.parse(lDatos[0], DateTimeFormatter.ISO_DATE);
+//            Date date = java.sql.Date.valueOf(fecha);
+            String datee = lDatos[3].substring(0, 10);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = formatter.parse(datee);
+
+            usuFor.setFechaCumple(date);
+            usuFor.setEmail(lDatos[6]);
+            usuFor.setNombreUsuario(lDatos[7]);
+            usuFor.setNombre2Usuario(lDatos[8]);
+            usuFor.setApellidoUsuario(lDatos[9]);
+            usuFor.setApellido2Usuario(lDatos[10]);
+            usuFor.setTipoDocumento(tipoDocumentoFacadeLocal.find(Integer.parseInt(lDatos[11])));
+            usuFor.setDocumento(lDatos[12]);
+            usuFor.setIdRol(Integer.parseInt(lDatos[13]));
+
+            String usuRed = usuFor.getNombreUsuario().substring(0, 1) + usuFor.getApellidoUsuario();
+            usuFor.setUsuario(usuRed.toUpperCase());
+
+            double numeroAleatori = Math.random() * 100000;
+            int claveInt = (int) numeroAleatori;
+            usuFor.setPassword(Integer.toString(claveInt));
+
+            java.util.Date dates = new java.util.Date();
+            long fechaSis = dates.getTime();
+            Date now = new Date(fechaSis);
+            usuFor.setFechaCreacion(now);
+
+            /*usuFor.setEstado("1");*/
+
+            JavaMail.sendClaves(usuFor.getEmail(), usuFor.getNombreUsuario() + " " + usuFor.getApellidoUsuario(), usuFor.getUsuario(), usuFor.getPassword());
+            usuarioFacadeLocal.create(usuFor);
+
+        }
+    }
+
     public Usuario getUsuarioLogin() {
         return usuarioLogin;
     }
 
     public void setUsuarioLogin(Usuario usuarioLogin) {
         this.usuarioLogin = usuarioLogin;
+    }
+
+    public Usuario getUsuarioGestion() {
+        return usuarioGestion;
+    }
+
+    public void setUsuarioGestion(Usuario usuarioGestion) {
+        this.usuarioGestion = usuarioGestion;
+    }
+
+    public Usuario getUsuarioEliminar() {
+        return usuarioEliminar;
+    }
+
+    public void setUsuarioEliminar(Usuario usuarioEliminar) {
+        this.usuarioEliminar = usuarioEliminar;
+    }
+
+    public Usuario getUsutest() {
+        return usutest;
+    }
+
+    public void setUsutest(Usuario usutest) {
+        this.usutest = usutest;
+    }
+
+    public Rol getRolGestion() {
+        return rolGestion;
+    }
+
+    public void setRolGestion(Rol rolGestion) {
+        this.rolGestion = rolGestion;
     }
 
     public String getUsuario() {
@@ -216,6 +339,14 @@ public class UsuarioSessionController implements Serializable {
 
     public void setClave(String clave) {
         this.clave = clave;
+    }
+
+    public String getFechaCumple() {
+        return fechaCumple;
+    }
+
+    public void setFechaCumple(String fechaCumple) {
+        this.fechaCumple = fechaCumple;
     }
 
     public String getEstado() {
@@ -290,36 +421,12 @@ public class UsuarioSessionController implements Serializable {
         this.idRol = idRol;
     }
 
-    public Rol getRolGestion() {
-        return rolGestion;
+    public Part getCargaArchivo() {
+        return cargaArchivo;
     }
 
-    public void setRolGestion(Rol rolGestion) {
-        this.rolGestion = rolGestion;
-    }
-
-    public String getFechaCumple() {
-        return fechaCumple;
-    }
-
-    public void setFechaCumple(String fechaCumple) {
-        this.fechaCumple = fechaCumple;
-    }
-
-    public Usuario getUsuarioGestion() {
-        return usuarioGestion;
-    }
-
-    public void setUsuarioGestion(Usuario usuarioGestion) {
-        this.usuarioGestion = usuarioGestion;
-    }
-
-    public Usuario getUsuarioEliminar() {
-        return usuarioEliminar;
-    }
-
-    public void setUsuarioEliminar(Usuario usuarioEliminar) {
-        this.usuarioEliminar = usuarioEliminar;
+    public void setCargaArchivo(Part cargaArchivo) {
+        this.cargaArchivo = cargaArchivo;
     }
 
 }

@@ -29,5 +29,7 @@ public interface ItemFacadeLocal {
     List<Item> findRange(int[] range);
 
     int count();
+
+    public List<Item> cantidadProducto(int cantidad);
     
 }

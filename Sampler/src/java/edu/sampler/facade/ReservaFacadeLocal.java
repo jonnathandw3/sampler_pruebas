@@ -29,5 +29,7 @@ public interface ReservaFacadeLocal {
     List<Reserva> findRange(int[] range);
 
     int count();
+
+    public int cantidadReserva(int sala);
     
 }

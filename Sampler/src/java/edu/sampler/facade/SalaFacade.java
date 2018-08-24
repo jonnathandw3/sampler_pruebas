@@ -9,6 +9,7 @@ import edu.sampler.entity.Sala;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +29,17 @@ public class SalaFacade extends AbstractFacade<Sala> implements SalaFacadeLocal 
     public SalaFacade() {
         super(Sala.class);
     }
-    
+    /*CANVAS*/
+    @Override
+    public int cantidadSala(int estado_sala) {
+        int cantidad = 0;
+        try {
+            Query q = em.createNativeQuery("SELECT COUNT(sala.estado_sala) FROM `sala` WHERE sala.estado_sala = ?");
+            q.setParameter(1, estado_sala);
+            long cantidadL = (long) q.getSingleResult();
+            cantidad = (int) cantidadL;
+        } catch (Exception e) {
+        }
+        return cantidad;
+    }
 }

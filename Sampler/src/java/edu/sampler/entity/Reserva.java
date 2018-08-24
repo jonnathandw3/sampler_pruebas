@@ -23,6 +23,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -41,23 +43,32 @@ public class Reserva implements Serializable {
     @Column(name = "idreserva")
     private Integer idreserva;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "codigo_reserva")
     private String codigoReserva;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "documento_cliente")
     private String documentoCliente;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "nombre_cliente")
     private String nombreCliente;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "fecha_reserva")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaReserva;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "hora_inicio")
     @Temporal(TemporalType.TIME)
     private Date horaInicio;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "hora_fin")
     @Temporal(TemporalType.TIME)
     private Date horaFin;

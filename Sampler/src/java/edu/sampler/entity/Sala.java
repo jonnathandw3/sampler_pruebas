@@ -20,6 +20,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -38,14 +40,24 @@ public class Sala implements Serializable {
     @Column(name = "idsala")
     private Integer idsala;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "nombre_sala")
     private String nombreSala;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "codigo_sala")
     private String codigoSala;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "estado_sala")
-    private String estadoSala;
+    private int estadoSala;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "descripcion")
+    private String descripcion;
     @JoinColumn(name = "idsede", referencedColumnName = "idsede")
     @ManyToOne(optional = false)
     private Sede idsede;
@@ -59,11 +71,12 @@ public class Sala implements Serializable {
         this.idsala = idsala;
     }
 
-    public Sala(Integer idsala, String nombreSala, String codigoSala, String estadoSala) {
+    public Sala(Integer idsala, String nombreSala, String codigoSala, int estadoSala, String descripcion) {
         this.idsala = idsala;
         this.nombreSala = nombreSala;
         this.codigoSala = codigoSala;
         this.estadoSala = estadoSala;
+        this.descripcion = descripcion;
     }
 
     public Integer getIdsala() {
@@ -90,12 +103,20 @@ public class Sala implements Serializable {
         this.codigoSala = codigoSala;
     }
 
-    public String getEstadoSala() {
+    public int getEstadoSala() {
         return estadoSala;
     }
 
-    public void setEstadoSala(String estadoSala) {
+    public void setEstadoSala(int estadoSala) {
         this.estadoSala = estadoSala;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public Sede getIdsede() {

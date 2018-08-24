@@ -29,5 +29,7 @@ public interface SedeFacadeLocal {
     List<Sede> findRange(int[] range);
 
     int count();
+
+    public int cantidadSede(int estado_sede);
     
 }

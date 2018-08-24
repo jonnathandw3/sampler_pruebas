@@ -29,5 +29,7 @@ public interface SalaFacadeLocal {
     List<Sala> findRange(int[] range);
 
     int count();
+
+    public int cantidadSala(int estado_sala);
     
 }

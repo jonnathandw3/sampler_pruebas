@@ -30,9 +30,9 @@ public interface UsuarioFacadeLocal {
 
     int count();
 
-    public Usuario consultaUsuario(String correo, String documento);
-
     public Usuario validarUsuarioLogueado(String usuario, String clave);
+
+    public Usuario consultaUsuario(String correo, String documento);
 
     public int cantidadUsuario(int estado);
     

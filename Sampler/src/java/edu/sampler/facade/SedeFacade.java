@@ -9,6 +9,7 @@ import edu.sampler.entity.Sede;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +28,19 @@ public class SedeFacade extends AbstractFacade<Sede> implements SedeFacadeLocal 
 
     public SedeFacade() {
         super(Sede.class);
+    }
+    
+    @Override
+    public int cantidadSede(int estado_sede) {
+        int cantidad = 0;
+        try {
+            Query q = em.createNativeQuery("SELECT COUNT(sede.estado_sede) FROM `sede` WHERE sede.estado_sede = ?");
+            q.setParameter(1, estado_sede);
+            long cantidadL = (long) q.getSingleResult();
+            cantidad = (int) cantidadL;
+        } catch (Exception e) {
+        }
+        return cantidad;
     }
     
 }
