@@ -1,0 +1,254 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    <body>
+        <ui:composition template="./../Template/Plantilla.xhtml">
+            <ui:define name="content">
+                <!--Miga de pan-->
+                <div class="mainbar">
+                    <!-- Page heading -->
+                    <!--titulo contenido-->
+                    <!-- <h2 class="float-left">Reservas</h2>
+
+                      <div class="clearfix"></div> -->
+                    <!--fin titulo contenido-->
+                    <!-- miga de pan -->
+                    <div class="bread-crumb"> <a href="mdl.reservas.dashboard.xhtml"><i class="fa fa-home"></i>#{lanPlantilla.migahome}</a> 
+                        <!-- division --> 
+                        <span class="divider">/</span>  <a href="#" class="bread-current">#{lanPlantilla.migaReservas}</a>
+                    </div>
+                    <!--fin miga de pan-->
+                    <!--contenido pagina-->
+                    <div class="matter">
+                        <div class="container">
+                            <!-- Table -->
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="widget">
+                                        <div class="widget-head">
+                                            <div class="float-left">#{lanPlantilla.widgetReservasAgenda}</div>
+                                            <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="widget-content" style="padding: 5vh;">
+                                            <h:form>
+                                                <p:growl id="messages" showDetail="true" />
+                                                <h:panelGrid columnClasses="value">
+                                                    <h3 style="margin-top: 0">Reservas</h3>
+                                                    <p:schedule id="schedule" value="#{reservaSessionController.eventModel}" widgetVar="myschedule" axisFormat="HH:mm" timeZone="GMT-5" locale="#{lanPlantilla.calendario}">
+                                                        <p:ajax event="dateSelect" listener="#{reservaSessionController.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+                                                        <p:ajax event="eventSelect" listener="#{reservaSessionController.onEventSelect}" update="eventDetailsEdit" oncomplete="PF('editarEvento').show();" />
+                                                        <p:ajax event="eventMove" listener="#{reservaSessionController.onEventMove}" update="messages" />
+                                                        <p:ajax event="eventResize" listener="#{reservaSessionController.onEventResize}" update="messages" />
+                                                    </p:schedule>
+                                                </h:panelGrid>
+                                                <p:dialog widgetVar="eventDialog" header="Agregar Reserva" showEffect="clip" hideEffect="clip">
+                                                    <h:panelGrid id="eventDetails" columns="2">
+                                                        <p:outputLabel for="salaReserva2" value="Sala" />
+                                                        <h:selectOneMenu class="form-control" id="salaReserva2" value="#{reservaSessionController.salaReserva}">
+                                                            <f:selectItem itemLabel="#{lanPlantilla.btnSeleccionar}" itemValue="#{0}"></f:selectItem>
+                                                            <f:selectItems var="salaReservaConsulta" value="#{salaSessionController.listarSalas()}" itemLabel="#{salaReservaConsulta.nombreSala}" itemValue="#{salaReservaConsulta.idsala}"></f:selectItems>
+                                                        </h:selectOneMenu>
+                                                        <p:outputLabel for="cedulaVentana" value="Cedula" />
+                                                        <p:inputText id="cedulaVentana" value="#{reservaSessionController.documentoCliente}" required="true" />
+                                                        <p:outputLabel for="nombreClienteVentana" value="Nombre" />
+                                                        <p:inputText id="nombreClienteVentana" value="#{reservaSessionController.nombreCliente}" required="true" />
+                                                        <p:outputLabel for="fecha" value="Fecha" />
+                                                        <p:calendar id="fecha" locale="es" value="#{reservaSessionController.fechaReserva}" timeZone="GMT-5" pattern="dd/MM/yyyy"/>
+                                                        <p:outputLabel for="to" value="Desde:" />
+                                                        <p:calendar id="from" locale="es" value="#{reservaSessionController.horaInicio}" timeZone="GMT-5" pattern="HH:mm"/>
+                                                        <p:outputLabel for="to" value="Hasta:" />
+                                                        <p:calendar id="to" locale="es" value="#{reservaSessionController.horaFin}" timeZone="GMT-5" pattern="HH:mm"/>
+                                                        <p:commandButton type="reset" class="btn btn-primary" value="Limpiar" icon="ui-icon-circle-close" actionListener="#{reservaSessionController.limpiarFormulario}" />
+                                                        <p:commandButton id="addButton"
+                                                                         class="btn btn-success" 
+                                                                         value="Guardar"
+                                                                         actionListener="#{reservaSessionController.ingresarReserva}"
+                                                                         oncomplete="PF('myschedule').update();PF('eventDialog').hide();PF('eventDialog').show().delay(800).fadeOut();" 
+                                                                         icon="ui-icon-check"
+                                                                         />
+                                                    </h:panelGrid>
+                                                </p:dialog>     
+                                                <p:dialog widgetVar="editarEvento" header="Editar Reserva" showEffect="puff" hideEffect="puff">
+                                                    <h:panelGrid id="eventDetailsEdit" columns="2">
+                                                        <p:outputLabel for="salaReservaActualizar" value="Sala" />
+                                                        <h:selectOneMenu class="form-control" id="salaReservaActualizar" converter="salaConverter" value="#{reservaSessionController.reservaActualizar.sala}">
+                                                            <f:selectItem itemLabel="#{lanPlantilla.btnSeleccionar}"></f:selectItem>
+                                                            <f:selectItems var="salaReservaConsulta" value="#{salaSessionController.listarSalas()}" itemLabel="#{salaReservaConsulta.nombreSala}"></f:selectItems>
+                                                        </h:selectOneMenu>
+                                                        <p:outputLabel for="cedulaVentanaEditar" value="Cedula" />
+                                                        <p:inputText id="cedulaVentanaEditar" value="#{reservaSessionController.reservaActualizar.documentoCliente}" required="true" />
+                                                        <p:outputLabel for="nombreClienteVentanaEditar" value="Nombre" />
+                                                        <p:inputText id="nombreClienteVentanaEditar" value="#{reservaSessionController.reservaActualizar.nombreCliente}" required="true" />
+                                                        <p:outputLabel for="fechaEditar" value="Fecha" />
+                                                        <p:calendar id="fechaEditar" locale="es" value="#{reservaSessionController.reservaActualizar.fechaReserva}" timeZone="GMT-5" pattern="dd/MM/yyyy"/>
+                                                        <p:outputLabel for="desdeEditar" value="Desde:" />
+                                                        <p:calendar id="desdeEditar" locale="es" value="#{reservaSessionController.reservaActualizar.horaInicio}" timeZone="GMT-5" pattern="HH:mm"/>
+                                                        <p:outputLabel for="hastaEditar" value="Hasta:" />
+                                                        <p:calendar id="hastaEditar" locale="es" value="#{reservaSessionController.reservaActualizar.horaFin}" timeZone="GMT-5" pattern="HH:mm"/>
+                                                        <p:commandButton type="reset" class="btn btn-primary" value="Limpiar" icon="ui-icon-circle-close"/>
+                                                        <p:commandButton id="editButton"
+                                                                         class="btn btn-success" 
+                                                                         value="Editar" 
+                                                                         actionListener="#{reservaSessionController.actualizarReserva}" 
+                                                                         oncomplete="PF('myschedule').update();PF('editarEvento').hide();" 
+                                                                         icon="ui-icon-check"
+                                                                         />
+                                                    </h:panelGrid>
+                                                </p:dialog>     
+                                            </h:form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 aligncenter">
+                                    <div class="widget">
+                                        <div class="widget-head">
+                                            <div class="float-left">#{lanPlantilla.widgetReservasAgregrar}</div>
+                                            <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="wsettings"><i class="fa fa-wrench"></i></a>  <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="widget-content">
+                                            <!--Contenido widget-->
+                                            <div class="card-body">
+                                                <h:form class="form" role="form" a:autocomplete="off">
+                                                    <div class="form-group row">
+                                                        <label class="col-lg-3 offset-2 col-form-label form-control-label">#{lanPlantilla.reservaAddSala}</label>
+                                                        <div class="col-lg-5">
+                                                            <h:selectOneMenu class="form-control" id="salaReserva1" value="#{reservaSessionController.salaReserva}">
+                                                                <f:selectItem itemLabel="#{lanPlantilla.btnSeleccionar}" itemValue="#{0}"></f:selectItem>
+                                                                <f:selectItems var="salaReservaConsulta" value="#{salaSessionController.listarSalas()}" itemLabel="#{salaReservaConsulta.nombreSala}" itemValue="#{salaReservaConsulta.idsala}"></f:selectItems>
+                                                            </h:selectOneMenu>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-lg-3 offset-2 col-form-label form-control-label" required="true">#{lanPlantilla.reservaAddCedulaCliente}</label>
+                                                        <div class="col-lg-5">
+                                                            <h:inputText class="form-control" id="cedulaReserva" a:pattern="[A-Za-z]{5-8}" required="true" value="#{reservaSessionController.documentoCliente}">
+                                                            </h:inputText>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-lg-3 offset-2 col-form-label form-control-label">#{lanPlantilla.reservaAddNombreCliente}</label>
+                                                        <div class="col-lg-5">
+                                                            <h:inputText class="form-control" id="nombreReserva" required="true" value="#{reservaSessionController.nombreCliente}">
+                                                            </h:inputText>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-lg-3 offset-2 col-form-label form-control-label">#{lanPlantilla.reservaAddFecha}</label>
+                                                        <div class="col-lg-5">
+                                                            <h:inputText class="form-control" id="fechaReserva" a:type="date"  label="Fecha" 
+                                                                         required="true" value="#{reservaSessionController.fechaReserva}">
+                                                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                                                            </h:inputText>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-lg-3 offset-2 col-form-label form-control-label" required="true">#{lanPlantilla.reservaAddHoraInicio}</label>
+                                                        <div class="col-lg-5">
+                                                            <h:inputText class="form-control" a:type="time" id="horaInicioReserva" required="true" value="#{reservaSessionController.horaInicio}">
+                                                            </h:inputText>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-lg-3 offset-2 col-form-label form-control-label" required="true">#{lanPlantilla.reservaAddHoraFinal}</label>
+                                                        <div class="col-lg-5">
+                                                            <h:inputText class="form-control" a:type="time" id="horaFinReserva" required="true" value="#{reservaSessionController.horaFin}">
+                                                            </h:inputText>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-8 offset-2">
+                                                            <br/><br/>
+                                                            <h:commandButton class="btn btn-success btn-block" action="#{reservaSessionController.ingresarReserva()}" value="#{lanPlantilla.btnEnviar}">
+                                                            </h:commandButton>
+                                                        </div>
+                                                    </div>
+                                                </h:form>
+                                            </div>  
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <h:form rendered="#{usuarioSessionController.usuarioLogin.idRol eq 1}">
+                                        <div class="col-xl-12">
+                                            <div class="widget">
+                                                <div class="widget-head">
+                                                    <div class="float-left">#{lanPlantilla.widgetReservasGrafico}</div>
+                                                    <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                        <a href="#" class="wsettings"><i class="fa fa-wrench"></i></a>  <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="widget-content container-fluid">
+                                                    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+                                                </div>  
+                                            </div>
+                                        </div>
+                                    </h:form>
+                                    <h:form rendered="#{usuarioSessionController.usuarioLogin.idRol eq 2}">
+                                        <div class="col-xl-12">
+                                            <div class="widget">
+                                                <div class="widget-head">
+                                                    <div class="float-left">#{lanPlantilla.widgetReservasGrafico}</div>
+                                                    <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                        <a href="#" class="wsettings"><i class="fa fa-wrench"></i></a>  <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="widget-content container-fluid">
+                                                    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+                                                </div>  
+                                            </div>
+                                        </div>
+                                    </h:form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- fin contenido pagina-->
+                <!--Fin miga de pan-->
+            </ui:define>
+            <ui:define name="scriptsAdicionales">
+                <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+                <script>
+                    window.onload = function () {
+                        var chart = new CanvasJS.Chart("chartContainer", {
+                            animationEnabled: true,
+                            theme: "light2", // "light1", "light2", "dark1", "dark2"
+                            title: {
+                                text: "#{lanPlantilla.graficoReservasTitulo}"
+                            },
+                            axisY: {
+                                title: "#{lanPlantilla.graficoReservasCantidad}"
+                            },
+                            data: [{
+                                    type: "column",
+                                    showInLegend: true,
+                                    legendText: "#{lanPlantilla.graficoReservasSalas}",
+                                    dataPoints: [
+                                        {y: #{usuarioSessionController.cantidadReserva(2)}, label: "420_WEEK"},
+                                        {y: #{usuarioSessionController.cantidadReserva(3)}, label: "420_BABYLON"},
+                                        {y: #{usuarioSessionController.cantidadReserva(4)}, label: "DARK"}
+                                    ]
+                                }]
+                        });
+                        chart.render();
+                    }
+                </script>
+            </ui:define>
+        </ui:composition>
+    </body>
+
+</html> 

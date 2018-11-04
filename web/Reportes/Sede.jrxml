@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="28c24d55-0e74-4bc8-aa9f-7a3ce5babeb3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     sede.`idsede` AS sede_idsede,
+     sede.`nombre_sede` AS sede_nombre_sede,
+     sede.`direccion` AS sede_direccion,
+     sede.`telefono` AS sede_telefono,
+     sede.`ciudad` AS sede_ciudad,
+     sede.`hora_funcionamiento` AS sede_hora_funcionamiento,
+     sede.`numero_salas` AS sede_numero_salas,
+     sede.`estado_sede` AS sede_estado_sede,
+     sede.`descripcion` AS sede_descripcion,
+     demografico_dane.`iddane` AS demografico_dane_iddane,
+     demografico_dane.`codigo_dept` AS demografico_dane_codigo_dept,
+     demografico_dane.`codigo_mpio` AS demografico_dane_codigo_mpio,
+     demografico_dane.`nom_mpio` AS demografico_dane_nom_mpio,
+     demografico_dane.`nom_dept` AS demografico_dane_nom_dept
+FROM
+     `demografico_dane` demografico_dane INNER JOIN `sede` sede ON demografico_dane.`iddane` = sede.`ciudad`]]>
+	</queryString>
+	<field name="sede_nombre_sede" class="java.lang.String"/>
+	<field name="sede_direccion" class="java.lang.String"/>
+	<field name="sede_telefono" class="java.lang.Integer"/>
+	<field name="demografico_dane_nom_mpio" class="java.lang.String"/>
+	<field name="sede_hora_funcionamiento" class="java.sql.Time"/>
+	<field name="sede_numero_salas" class="java.lang.Integer"/>
+	<field name="sede_descripcion" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<image>
+				<reportElement x="-20" y="0" width="595" height="64" uuid="4d204de8-cf4a-420b-ab09-b3dfc62f9cc3"/>
+				<imageExpression><![CDATA["wood.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="0" y="5" width="263" height="33" uuid="c7eea81a-998d-4863-bcbc-063b0eb01121"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Sedes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="63" y="39" width="200" height="22" forecolor="#FFFFFF" uuid="27179a13-a1c7-49bd-9488-f709a0c1794b"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Detalle Sede]]></text>
+			</staticText>
+			<image>
+				<reportElement x="341" y="0" width="224" height="61" uuid="4400ca50-5f1e-410d-8f1d-6be77d217ba7"/>
+				<imageExpression><![CDATA["E:\\USER\\Escritorio\\SAMPLER FINAL\\sampler\\web\\Resources\\images\\SamplerNegro.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="68efb258-47fc-498e-9c00-8147c56d8589"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="19" width="101" height="15" uuid="a13317af-adf6-46ef-b578-643ec015b1f8"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="101" y="19" width="89" height="15" uuid="1f6dfd21-b7d6-4dc8-b808-2ec431771f1f"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Direccion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="189" y="19" width="69" height="15" uuid="295f30e8-9cb5-4406-9f7f-eb401ef2eedd"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telefono]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="257" y="19" width="62" height="15" uuid="3a63356e-8ab3-4e47-a768-5a3f258646ba"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ciudad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="319" y="19" width="114" height="15" uuid="be430edd-9d32-4ae0-ba44-9857842bb1eb"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hora Apertura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="433" y="19" width="59" height="15" uuid="7fe617e0-f380-4d0e-8653-5c464a434751"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No salas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="491" y="19" width="62" height="15" uuid="5ff443b8-95c2-489a-b2ee-37aeb30a7dc6"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estado]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="a9fbc81e-1f71-491b-9a9d-a4ff7d60c5a1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement style="Detail" x="0" y="0" width="101" height="15" uuid="8de2cb2c-9b4f-4bb7-ba48-037efa2b04b8"/>
+				<textFieldExpression><![CDATA[$F{sede_nombre_sede}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="102" y="0" width="89" height="15" uuid="0796e9c4-1035-4a25-960a-d9182d24d803"/>
+				<textFieldExpression><![CDATA[$F{sede_direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="190" y="0" width="69" height="15" uuid="90bce7d1-240c-4666-863b-de9de5b98276"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{sede_telefono}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="258" y="0" width="61" height="15" uuid="59e35560-207a-4c27-a973-9ec82a74636b"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{demografico_dane_nom_mpio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="h.mm a">
+				<reportElement style="Detail" x="319" y="0" width="114" height="15" uuid="02213474-8d21-4a6b-8d77-793644168c51"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{sede_hora_funcionamiento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="433" y="0" width="59" height="15" uuid="87e6580c-4ecb-472d-98e8-286d3c21525f"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{sede_numero_salas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="491" y="0" width="62" height="15" uuid="8805c185-15bc-4dbb-9317-c9cbca3aacb7"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{sede_descripcion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="00adb8d5-d9b1-44a1-9fde-82fc62603171"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="07c4962a-2985-4c1b-acf2-802692180756"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="c55f5880-d486-4444-bf2a-4a3a120b75bb"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="00a7f850-7e03-4854-9b21-64baecdceeff"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

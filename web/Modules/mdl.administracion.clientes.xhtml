@@ -1,0 +1,416 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    <body>
+        <ui:composition template="./../Template/Plantilla.xhtml">
+            <ui:define name="content">
+                <!--Miga de pan-->
+                <div class="mainbar">
+                    <!-- Page heading -->
+                    <div class="page-head">
+                        <!--titulo contenido-->
+                        <!-- <h2 class="float-left">Reservas</h2>
+                        <div class="clearfix"></div> -->
+                        <!--fin titulo contenido-->
+                        <!-- miga de pan -->
+                        <div class="bread-crumb"> <a href="mdl.reservas.dashboard.xhtml"><i class="fa fa-home"></i>Inicio</a> 
+                            <!-- division --> <span class="divider">/</span>  <a href="#" class="bread-current">Administración de clientes</a>
+                        </div>
+                        <!--fin miga de pan-->
+                    </div>
+                    <!--contenido pagina-->
+                    <div class="matter">
+                        <div class="container">
+                            <div class="row" >
+                                <div class="col-md-6">
+                                    <h:form styleClass="form-inline">
+                                        <h:outputLabel styleClass="mb-2 mr-sm-2" for="inputBusqueda"><strong>Consultar Clientes</strong></h:outputLabel>
+                                        <h:commandButton  value="Reporte Clientes" styleClass="btn btn-success mb-2" actionListener="#{reporteRequestController.cliente()}"></h:commandButton>
+                                    </h:form>
+                                </div>
+                            </div> 
+
+                            <!-- Table -->
+
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="widget">
+                                        <div class="widget-head">
+                                            <div class="float-left">Todos los clientes</div>
+                                            <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+
+                                        <div class="widget-content container-fluid">
+
+                                            <!--tabla-->
+                                            <table id="tablaFacturacion" class="table table-striped table-bordered tablaBusqueda export" style="width:100%">
+
+                                                <thead>
+                                                    <tr>
+                                                        <th>NOMBRE</th>
+                                                        <th>FECHA NACIMIENTO</th>
+                                                        <th>TELÉFONO FIJO</th>
+                                                        <th>TELÉFONO MOVIL</th>
+                                                        <th>EMAIL</th>
+                                                        <th>ACCIONES</th>	
+                                                    </tr>
+                                                </thead>
+                                                <ui:repeat value="#{clienteSessionController.todosClientes()}" var="cliente">
+                                                    <tr>
+                                                        <td>#{cliente.nombreCliente} #{cliente.nombre2Cliente} #{cliente.apellidoCliente} #{cliente.apellido2Cliente}</td>
+                                                        <td>
+                                                            <h:outputLabel value="#{cliente.fechaNacimiento}">
+                                                                <f:convertDateTime pattern="dd/MM/yyyy">
+                                                                </f:convertDateTime>
+                                                            </h:outputLabel>
+                                                        </td>
+                                                        <td>#{cliente.numeroFijo}</td>
+                                                        <td>#{cliente.numeroMovil}</td>
+                                                        <td>#{cliente.email}</td>
+                                                        <td style="text-align: center;">
+                                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                                <h:form>
+                                                                    <h:commandLink class="btn btn-default" style="" >
+                                                                        <span class="fas fa-pencil-alt" style="color: green;"/>
+                                                                        <f:ajax event="click" render=":miCliente" listener="#{clienteSessionController.setClienteActualizar(cliente)}"></f:ajax>
+                                                                    </h:commandLink>
+                                                                    <h:commandLink class="btn btn-default" style="" actionListener="#{clienteSessionController.eliminarCliente(cliente)}">
+                                                                        <span class="fas fa-trash" style="color: red; "/>
+                                                                    </h:commandLink>    
+                                                                </h:form>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </ui:repeat>
+                                            </table>
+
+                                            <!--Fin tabla-->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-6">
+                                    <div class="widget">
+                                        <div class="widget-head">
+                                            <div class="float-left">Agregar Cliente</div>
+                                            <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="widget-content container-fluid">
+                                            <h:form class="form" role="form" a:autocomplete="off">
+                                                <div class="form-group row">
+                                                    <label class="col-lg-5 col-form-label form-control-label" required="true">Tipo de cliente</label>
+                                                    <div class="col-lg-7">
+                                                        <h:selectOneMenu class="form-control" id="TipoDocumento" value="#{clienteSessionController.tipoCliente}">
+                                                            <f:selectItem itemLabel="Seleccionar" itemValue="#{0}"></f:selectItem>
+                                                            <f:selectItems var="tipoCliente" value="#{clienteSessionController.todosTiposCliente()}" itemLabel="#{tipoCliente.tipoCliente}" itemValue="#{tipoCliente.id}"></f:selectItems>
+                                                        </h:selectOneMenu>
+                                                    </div>
+                                                </div> 
+                                                <div class="form-group row">
+                                                    <label class="col-lg-5 col-form-label form-control-label" required="true">Numero de dentificación</label>
+                                                    <div class="col-lg-7">
+                                                        <!--<input class="form-control" type="text" pattern="[0-9]{10-12}" name="identificacion"/>-->
+                                                        <h:inputText class="form-control" id="idIdentificacion" required="true" value="#{clienteSessionController.identificacion}">
+                                                        </h:inputText>
+                                                    </div>
+                                                </div> 
+                                                <div class="form-group row">
+                                                    <label class="col-lg-5 col-form-label form-control-label">Primer nombre</label>
+                                                    <div class="col-lg-7">
+                                                        <!--<input class="form-control" type="text" name="nombre"/>-->
+                                                        <h:inputText class="form-control" id="idNombre1" required="true" value="#{clienteSessionController.primerNombre}">
+                                                        </h:inputText>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-5 col-form-label form-control-label">Segundo nombre</label>
+                                                    <div class="col-lg-7">
+                                                        <!--<input class="form-control" type="text" name="nombre"/>-->
+                                                        <h:inputText class="form-control" id="idNombre2" required="true" value="#{clienteSessionController.segundoNombre}">
+                                                        </h:inputText>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-5 col-form-label form-control-label">Primer apellido</label>
+                                                    <div class="col-lg-7">
+                                                        <!--<input class="form-control" type="text" name="nombre"/>-->
+                                                        <h:inputText class="form-control" id="apellido1" required="true" value="#{clienteSessionController.primerApellido}">
+                                                        </h:inputText>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-5 col-form-label form-control-label">Segundo apellido</label>
+                                                    <div class="col-lg-7">
+                                                        <!--<input class="form-control" type="text" name="nombre"/>-->
+                                                        <h:inputText class="form-control" id="apellido2" required="true" value="#{clienteSessionController.segundoApellido}">
+                                                        </h:inputText>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-5 col-form-label form-control-label">Fecha Nacimiento</label>
+                                                    <div class="col-lg-7">
+                                                        <h:inputText class="form-control" id="idFechaNacimiento" a:type="date"  label="Fecha Nacimiento" 
+                                                                     required="true" value="#{clienteSessionController.fechaNacimiento}">
+                                                        </h:inputText>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-5 col-form-label form-control-label" required="true">Numero fijo</label>
+                                                    <div class="col-lg-7">
+                                                        <!--<input class="form-control" type="text" pattern="[0-9]{10-12}" name="identificacion"/>-->
+                                                        <h:inputText a:type="number" class="form-control" id="numeroFijo" required="true" value="#{clienteSessionController.numeroFijo}">
+                                                        </h:inputText>
+                                                    </div>
+                                                </div> 
+                                                <div class="form-group row">
+                                                    <label class="col-lg-5 col-form-label form-control-label" required="true">Numero movil</label>
+                                                    <div class="col-lg-7">
+                                                        <!--<input class="form-control" type="text" pattern="[0-9]{10-12}" name="identificacion"/>-->
+                                                        <h:inputText a:type="number" class="form-control" id="numeroMovil" required="true" value="#{clienteSessionController.numeroMovil}">
+                                                        </h:inputText>
+                                                    </div>
+                                                </div>                                                 
+                                                <div class="form-group row">
+                                                    <label class="col-lg-5 col-form-label form-control-label">Correo</label>
+                                                    <div class="col-lg-7">
+                                                        <h:inputText class="form-control" id="idCorreo" a:type="email"  label="Correo" required="true" value="#{clienteSessionController.email}">
+                                                        </h:inputText>
+                                                    </div>
+                                                </div>
+                                                <div class="offset-lg-12 text-center">
+                                                    <br/>
+                                                    <h:commandButton class="btn btn-success signup" action="#{clienteSessionController.ingresarNuevoCliente()}" value="Enviar">
+                                                    </h:commandButton>
+                                                </div>
+                                            </h:form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="widget">
+                                        <div class="widget-head">
+                                            <div class="float-left">Modificar Cliente</div>
+                                            <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="widget-content container-fluid">
+                                            <h:form class="form" role="form" a:autocomplete="off" id="miCliente">
+                                                <div class="form-group row">
+                                                    <label class="col-lg-5 col-form-label form-control-label" required="true">Tipo de cliente</label>
+                                                    <div class="col-lg-7">
+                                                        <h:selectOneMenu class="form-control" id="TipoDocumento" value="#{clienteSessionController.clienteActualizar.tipoCliente.id}">
+                                                            <f:selectItem itemLabel="Seleccionar" itemValue="#{0}"></f:selectItem>
+                                                            <f:selectItems var="tipoCliente" value="#{clienteSessionController.todosTiposCliente()}" itemLabel="#{tipoCliente.tipoCliente}" itemValue="#{tipoCliente.id}"></f:selectItems>
+                                                        </h:selectOneMenu>
+                                                    </div>
+                                                </div> 
+                                                <div class="form-group row">
+                                                    <label class="col-lg-5 col-form-label form-control-label" required="true">Numero de dentificación</label>
+                                                    <div class="col-lg-7">
+                                                        <!--<input class="form-control" type="text" pattern="[0-9]{10-12}" name="identificacion"/>-->
+                                                        <h:inputText class="form-control" id="idIdentificacion" required="true" value="#{clienteSessionController.clienteActualizar.identificacion}">
+                                                        </h:inputText>
+                                                    </div>
+                                                </div> 
+                                                <div class="form-group row">
+                                                    <label class="col-lg-5 col-form-label form-control-label">Primer nombre</label>
+                                                    <div class="col-lg-7">
+                                                        <!--<input class="form-control" type="text" name="nombre"/>-->
+                                                        <h:inputText class="form-control" id="idNombre1" required="true" value="#{clienteSessionController.clienteActualizar.nombreCliente}">
+                                                        </h:inputText>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-5 col-form-label form-control-label">Segundo nombre</label>
+                                                    <div class="col-lg-7">
+                                                        <!--<input class="form-control" type="text" name="nombre"/>-->
+                                                        <h:inputText class="form-control" id="idNombre2" required="true" value="#{clienteSessionController.clienteActualizar.nombre2Cliente}">
+                                                        </h:inputText>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-5 col-form-label form-control-label">Primer apellido</label>
+                                                    <div class="col-lg-7">
+                                                        <!--<input class="form-control" type="text" name="nombre"/>-->
+                                                        <h:inputText class="form-control" id="apellido1" required="true" value="#{clienteSessionController.clienteActualizar.apellidoCliente}">
+                                                        </h:inputText>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-5 col-form-label form-control-label">Segundo apellido</label>
+                                                    <div class="col-lg-7">
+                                                        <!--<input class="form-control" type="text" name="nombre"/>-->
+                                                        <h:inputText class="form-control" id="apellido2" required="true" value="#{clienteSessionController.clienteActualizar.apellido2Cliente}">
+                                                        </h:inputText>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-5 col-form-label form-control-label">Fecha Nacimiento</label>
+                                                    <div class="col-lg-7">
+                                                        <h:inputText class="form-control" disabled="true" id="fechaNacimiento" required="true" value="#{clienteSessionController.clienteActualizar.fechaNacimiento}">
+                                                            <f:convertDateTime pattern="dd/MM/yyyy">
+                                                            </f:convertDateTime>
+                                                        </h:inputText>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-5 col-form-label form-control-label" required="true">Numero fijo</label>
+                                                    <div class="col-lg-7">
+                                                        <!--<input class="form-control" type="text" pattern="[0-9]{10-12}" name="identificacion"/>-->
+                                                        <h:inputText class="form-control" id="numeroFijo" required="true" value="#{clienteSessionController.clienteActualizar.numeroFijo}">
+                                                        </h:inputText>
+                                                    </div>
+                                                </div> 
+                                                <div class="form-group row">
+                                                    <label class="col-lg-5 col-form-label form-control-label" required="true">Numero movil</label>
+                                                    <div class="col-lg-7">
+                                                        <!--<input class="form-control" type="text" pattern="[0-9]{10-12}" name="identificacion"/>-->
+                                                        <h:inputText class="form-control" id="numeroMovil" required="true" value="#{clienteSessionController.clienteActualizar.numeroMovil}">
+                                                        </h:inputText>
+                                                    </div>
+                                                </div>                                                 
+                                                <div class="form-group row">
+                                                    <label class="col-lg-5 col-form-label form-control-label">Correo</label>
+                                                    <div class="col-lg-7">
+                                                        <h:inputText class="form-control" id="idCorreo" a:type="email"  label="Correo" required="true" value="#{clienteSessionController.clienteActualizar.email}">
+                                                        </h:inputText>
+                                                    </div>
+                                                </div>
+                                                <div class="offset-lg-12 text-center">
+                                                    <br/>
+                                                    <h:commandButton class="btn btn-dark signup" action="#{clienteSessionController.actualizarCliente()}" value="Actualizar"/>
+                                                </div>
+                                            </h:form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-7">
+                                    <div class="widget">
+                                        <div class="widget-head">
+                                            <div class="float-left">#{lanPlantilla.widgetBuscarBanda}</div>
+                                            <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="widget-content container-fluid">
+                                            <!--tabla-->
+                                            <table id="tablaFacturacion" class="table table-striped table-bordered tablaBuscar" style="width:100%">
+                                                <thead>
+                                                    <tr class="text-center">
+                                                        <th>#{lanPlantilla.bandaCodigo}</th>
+                                                        <th>#{lanPlantilla.bandaNombre}</th>
+                                                        <th>#{lanPlantilla.bandaAcciones}</th>
+                                                    </tr>
+                                                </thead>
+                                                <ui:repeat value="#{facturaSessionController.todosBanda()}" var="banda">
+                                                    <tr>
+                                                        <td style="text-align: center; vertical-align: middle;">#{banda.codigoBanda}</td>
+                                                        <td style="text-align: center; vertical-align: middle;">#{banda.nombreBanda}</td>
+                                                        <td style="text-align: center; vertical-align: middle;">    
+                                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                                <h:form>
+                                                                    <h:commandLink class="btn btn-default" style="" >
+                                                                        <span class="fas fa-pencil-alt" style="color: green;"/>
+                                                                        <f:ajax event="click" render=":miBanda" listener="#{clienteSessionController.setBandaActualizar(banda)}"></f:ajax>
+                                                                    </h:commandLink>
+                                                                    <h:commandLink class="btn btn-default" style="" actionListener="#{clienteSessionController.eliminarBanda(banda)}">
+                                                                        <span class="fas fa-trash" style="color: red; "/>
+                                                                    </h:commandLink>    
+                                                                </h:form>
+                                                                <!--                                                                <button type="button" class="btn btn-link"><span class="fas fa-pencil-alt" style="color: green;"></span></button>
+                                                                                                                                <button type="button" class="btn btn-link"><span class="fas fa-trash" style="color: red; "></span></button>-->
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </ui:repeat>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-5">
+                                    <div class="widget">
+                                        <div class="widget-head">
+                                            <div class="float-left">#{lanPlantilla.widgetAgregarBanda}</div>
+                                            <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="widget-content container-fluid">
+                                            <!--tabla-->
+                                            <h:form class="form" role="form" a:autocomplete="off">
+                                                <div class="form-group row">
+                                                    <label class="col-lg-5 col-form-label form-control-label">#{lanPlantilla.bandaAddNombreBanda}</label>
+                                                    <div class="col-lg-7">
+                                                        <!--<input class="form-control" type="text" name="nombre"/>-->
+                                                        <h:inputText class="form-control" id="idNombre1" required="true" value="#{clienteSessionController.nombreBanda}">
+                                                        </h:inputText>
+                                                    </div>
+                                                </div>
+
+                                                <div class="offset-lg-12 text-center">
+                                                    <br/>
+                                                    <h:commandButton class="btn btn-success signup" action="#{clienteSessionController.ingresarNuevaBanda(banda)}" value="#{lanPlantilla.btnEnviar}">
+                                                    </h:commandButton>
+                                                </div>
+                                            </h:form>
+                                        </div>
+                                    </div>
+                                    <div class="widget">
+                                        <div class="widget-head">
+                                            <div class="float-left">#{lanPlantilla.widgetAgregarBanda}</div>
+                                            <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="widget-content container-fluid">
+                                            <!--tabla-->
+                                            <h:form class="form" role="form" a:autocomplete="off" id="miBanda">
+                                                <div class="form-group row">
+                                                    <label class="col-lg-5 col-form-label form-control-label">#{lanPlantilla.bandaAddNombreBanda}</label>
+                                                    <div class="col-lg-7">
+                                                        <!--<input class="form-control" type="text" name="nombre"/>-->
+                                                        <h:inputText class="form-control" id="idNombre1" required="true" value="#{clienteSessionController.bandaActualizar.nombreBanda}">
+                                                        </h:inputText>
+                                                    </div>
+                                                </div>
+
+                                                <div class="offset-lg-12 text-center">
+                                                    <br/>
+                                                    <h:commandButton class="btn btn-success signup" action="#{clienteSessionController.actualizarBanda()}" value="#{lanPlantilla.btnActualizar}">
+                                                    </h:commandButton>
+                                                </div>
+                                            </h:form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- fin contenido pagina-->
+                </div>
+                <!--Fin miga de pan-->
+            </ui:define>
+            <ui:define name="scriptJquery">
+                <script src="../Resources/js/jquery.min.js"></script>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

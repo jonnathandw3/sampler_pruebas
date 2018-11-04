@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+        <ui:composition template="./../Template/Plantilla.xhtml">
+            <ui:define name="content">
+                <!--Miga de pan-->
+                <div class="mainbar">
+                    <!-- Page heading -->
+                    <div class="page-head">
+                        <!--titulo contenido-->
+                        <!-- <h2 class="float-left">Reservas</h2>
+
+                          <div class="clearfix"></div> -->
+                        <!--fin titulo contenido-->
+                        <!-- miga de pan -->
+                        <div class="bread-crumb"> <a href="mdl.reservas.dashboard.xhtml"><i class="fa fa-home"></i>#{lanPlantilla.migahome}</a> 
+                            <!-- division --> <span class="divider">/</span>  <a href="#" class="bread-current">#{lanPlantilla.migaInventariosActivos}</a>
+                        </div>
+                        <!--fin miga de pan-->
+                    </div>
+                    <!--contenido pagina-->
+                    <div class="matter">
+                        <div class="container">
+                            <div class="row" >
+                                <div class="col-md-6">
+                                    <h:form styleClass="form-inline" rendered="#{usuarioSessionController.usuarioLogin.idRol eq 1}">
+                                        <h:outputLabel styleClass="mb-2 mr-sm-2" for="inputBusqueda"><strong>#{lanPlantilla.reportesLabelActivo}</strong></h:outputLabel>
+                                        <h:inputText  value="#{reporteRequestController.sede}" id="inputBusqueda" styleClass="form-control mb-2 mr-sm-2" ></h:inputText>
+                                        <h:commandButton  value="#{lanPlantilla.btnGenerar}" styleClass="btn btn-success mb-2" actionListener="#{reporteRequestController.imprimirSede()}"></h:commandButton>
+                                    </h:form>
+                                </div>
+                            </div> 
+                            <!-- Table -->
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="widget">
+                                        <div class="widget-head">
+                                            <div class="float-left">#{lanPlantilla.widgetActivos}</div>
+                                            <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="widget-content container-fluid">
+                                            <!--tabla-->
+                                            <h:form>
+                                                <table id="tablaFacturacion" class="table table-striped table-bordered tablaBusqueda" style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#{lanPlantilla.activoSede}</th>
+                                                            <th>#{lanPlantilla.activoActivo}</th>
+                                                            <th>#{lanPlantilla.activoCantidad}</th>
+                                                            <th>#{lanPlantilla.activoValor}</th>
+                                                            <th>#{lanPlantilla.activoCodigo}</th>
+                                                            <th>#{lanPlantilla.activoAcciones}</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <c:forEach items="#{activoSessionController.todosActivos()}" var="activo">
+                                                            <tr>
+                                                                <td>#{activo.idSede.nombreSede}</td>
+                                                                <td>#{activo.nombreActivo}</td>
+                                                                <td>#{activo.cantidad}</td>
+                                                                <td>#{activo.valor}</td>
+                                                                <td>#{activo.codigoActivo}</td>
+                                                                <td>
+                                                                    <h:commandLink class="btn btn-default" style="" >
+                                                                        <span class="fas fa-pencil-alt" style="color: blue;"/>
+                                                                        <f:ajax event="click" render="miActivomodifica" listener="#{activoSessionController.setActivoGestion(activo)}"></f:ajax>
+                                                                    </h:commandLink>
+                                                                    <h:commandLink class="btn btn-default" action="#{activoSessionController.borrarActivo(activo)}"  >
+                                                                        <span class="fas fa-trash" style="color: red; "/>
+                                                                    </h:commandLink>   
+                                                                </td>
+                                                            </tr>
+                                                        </c:forEach>
+                                                    </tbody>
+                                                </table>
+                                            </h:form>
+                                            <!--Fin tabla-->
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="widget">
+                                        <div class="widget-head">
+                                            <div class="float-left">#{lanPlantilla.widgetAgregarActivo}</div>
+                                            <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="widget-content container-fluid">
+                                            <!--tabla-->
+                                            <h:form id="miActivo">
+
+                                                <div class="form-group row">
+                                                    <label class="col-lg-4 col-form-label form-control-label">#{lanPlantilla.activoAddSede}</label>
+                                                    <br/>
+                                                    <div class="col-lg-5">
+                                                        <h:selectOneMenu class="form-control" id="selectSede" value="#{activoSessionController.idSede}" >
+                                                            <f:selectItem itemLabel="#{lanPlantilla.btnSeleccionar}" itemValue="#{0}"></f:selectItem>
+                                                            <f:selectItems var="sede" value="#{activoSessionController.listaSedes()}" itemLabel="#{sede.nombreSede}" itemValue="#{sede.idsede}"></f:selectItems>
+                                                        </h:selectOneMenu>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-4 col-form-label form-control-label">#{lanPlantilla.activoAddNombreActivo}</label>
+                                                    <div class="col-lg-5">
+                                                        <h:inputText class="form-control" id="idnombreActivo" required="true" value="#{activoSessionController.nombreActivo}">
+                                                        </h:inputText>
+                                                        <h:message for="idnombreActivo" style="color: red;margin: 8px"/>
+                                                    </div>
+                                                </div>        
+                                                <div class="form-group row">
+                                                    <label class="col-lg-4 col-form-label form-control-label">#{lanPlantilla.activoAddCantidad}</label>
+                                                    <br/>
+                                                    <div class="col-lg-5">
+                                                        <h:inputText class="form-control" pt:type="number" id="idcantidad" requiredMessage="Se requiere un valor" validatorMessage="datos incorrectos" required="true" value="#{activoSessionController.cantidad}">
+                                                            <f:validateLength maximum="6" minimum="1"></f:validateLength>
+                                                            <f:ajax event="keypress" render="idMcantidad"/>
+                                                        </h:inputText>
+                                                        <h:message for="idcantidad" id="idMcantidad" style="color: red;margin: 8px"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-4 col-form-label form-control-label">#{lanPlantilla.activoAddValor}</label>
+                                                    <br/>
+                                                    <div class="col-lg-5">
+                                                        <h:inputText class="form-control" pt:type="number" id="idvalor" requiredMessage="Se requiere un valor" validatorMessage="datos incorrectos" required="true" value="#{activoSessionController.valor}">
+                                                            <f:validateLength maximum="10" minimum="3"></f:validateLength>
+                                                            <f:ajax event="keypress" render="idMvalor"/>
+                                                        </h:inputText>
+                                                        <h:message for="idvalor" id="idMvalor" style="color: red;margin: 8px"/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <div class="action col-lg-5" >
+                                                        <br/>
+                                                        <h:commandButton class="btn btn-success " action="#{activoSessionController.ingresarNuevoActivo()}" value="#{lanPlantilla.btnEnviar}">
+                                                        </h:commandButton>
+                                                    </div>
+                                                </div>
+                                            </h:form>
+
+
+                                            <!--Fin tabla-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="widget">
+                                        <div class="widget-head">
+                                            <div class="float-left">#{lanPlantilla.widgetModificarActivo}</div>
+                                            <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="widget-content container-fluid">
+                                            <!--tabla-->
+                                            <h:form id="miActivomodifica">
+
+                                                <div class="form-group row">
+                                                    <label class="col-lg-4 col-form-label form-control-label">#{lanPlantilla.activoAddSede}</label>
+                                                    <br/>
+                                                    <div class="col-lg-5">
+                                                        <h:selectOneMenu class="form-control" id="selectSede" value="#{activoSessionController.activoGestion.idSede.idsede}" >
+                                                            <f:selectItem itemLabel="#{lanPlantilla.btnSeleccionar}" itemValue="#{0}"></f:selectItem>
+                                                            <f:selectItems var="sede" value="#{activoSessionController.listaSedes()}" itemLabel="#{sede.nombreSede}" itemValue="#{sede.idsede}"></f:selectItems>
+                                                        </h:selectOneMenu>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-4 col-form-label form-control-label">#{lanPlantilla.activoAddNombreActivo}</label>
+                                                    <div class="col-lg-5">
+                                                        <h:inputText class="form-control" id="idnombreActivo" required="true" value="#{activoSessionController.activoGestion.nombreActivo}">
+                                                        </h:inputText>
+                                                        <h:message for="idnombreActivo" style="color: red;margin: 8px"/>
+                                                    </div>
+                                                </div>        
+                                                <div class="form-group row">
+                                                    <label class="col-lg-4 col-form-label form-control-label">#{lanPlantilla.activoAddCantidad}</label>
+                                                    <br/>
+                                                    <div class="col-lg-5">
+                                                        <h:inputText class="form-control" pt:type="number" id="idcantidad" requiredMessage="Se requiere un valor" validatorMessage="datos incorrectos" required="true" value="#{activoSessionController.activoGestion.cantidad}">
+                                                            <f:validateLength maximum="6" minimum="1"></f:validateLength>
+                                                            <f:ajax event="keypress" render="idMcantidad"/>
+                                                        </h:inputText>
+                                                        <h:message for="idcantidad" id="idMcantidad" style="color: red;margin: 8px"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-4 col-form-label form-control-label">#{lanPlantilla.activoAddValor}</label>
+                                                    <br/>
+                                                    <div class="col-lg-5">
+                                                        <h:inputText class="form-control" pt:type="number" id="idvalor" requiredMessage="Se requiere un valor" validatorMessage="datos incorrectos" required="true" value="#{activoSessionController.activoGestion.valor}">
+                                                            <f:validateLength maximum="10" minimum="3"></f:validateLength>
+                                                            <f:ajax event="keypress" render="idMvalor"/>
+                                                        </h:inputText>
+                                                        <h:message for="idvalor" id="idMvalor" style="color: red;margin: 8px"/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <div class="action col-lg-5" >
+                                                        <br/>
+                                                        <h:commandButton class="btn btn-success " action="#{activoSessionController.actualizarActivo()}" value="#{lanPlantilla.btnEnviar}">
+                                                        </h:commandButton>
+                                                    </div>
+                                                </div>
+                                            </h:form>
+
+
+                                            <!--Fin tabla-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- fin contenido pagina-->
+                </div>
+                <!--Fin miga de pan-->
+            </ui:define>
+            <ui:define name="scriptJquery">
+                <script src="../Resources/js/jquery.min.js"></script>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

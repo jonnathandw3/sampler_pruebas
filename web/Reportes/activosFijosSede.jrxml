@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9e4c13ff-e08a-4857-8635-2257314d0a11">
+	<property name="template.type" value="columnar"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#000000" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="sede" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$F{sede_nombre_sede}]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     sede.`idsede` AS sede_idsede,
+     sede.`nombre_sede` AS sede_nombre_sede,
+     sede.`direccion` AS sede_direccion,
+     sede.`telefono` AS sede_telefono,
+     sede.`ciudad` AS sede_ciudad,
+     sede.`hora_funcionamiento` AS sede_hora_funcionamiento,
+     sede.`numero_salas` AS sede_numero_salas,
+     sede.`estado_sede` AS sede_estado_sede,
+     sede.`descripcion` AS sede_descripcion,
+     demografico_dane.`iddane` AS demografico_dane_iddane,
+     demografico_dane.`codigo_dept` AS demografico_dane_codigo_dept,
+     demografico_dane.`codigo_mpio` AS demografico_dane_codigo_mpio,
+     demografico_dane.`nom_mpio` AS demografico_dane_nom_mpio,
+     demografico_dane.`nom_dept` AS demografico_dane_nom_dept,
+     activo.`idactivo` AS activo_idactivo,
+     activo.`id_sede` AS activo_id_sede,
+     activo.`codigo_activo` AS activo_codigo_activo,
+     activo.`cantidad` AS activo_cantidad,
+     activo.`valor` AS activo_valor,
+     activo.`nombre_activo` AS activo_nombre_activo
+FROM
+     `demografico_dane` demografico_dane INNER JOIN `sede` sede ON demografico_dane.`iddane` = sede.`ciudad`
+     INNER JOIN `activo` activo ON sede.`idsede` = activo.`id_sede`
+WHERE sede.`nombre_sede` = $P{sede}]]>
+	</queryString>
+	<field name="sede_idsede" class="java.lang.Integer"/>
+	<field name="sede_nombre_sede" class="java.lang.String"/>
+	<field name="sede_direccion" class="java.lang.String"/>
+	<field name="sede_telefono" class="java.lang.Integer"/>
+	<field name="sede_ciudad" class="java.lang.Integer"/>
+	<field name="sede_hora_funcionamiento" class="java.sql.Time"/>
+	<field name="sede_numero_salas" class="java.lang.Integer"/>
+	<field name="sede_estado_sede" class="java.lang.Integer"/>
+	<field name="sede_descripcion" class="java.lang.String"/>
+	<field name="demografico_dane_iddane" class="java.lang.Integer"/>
+	<field name="demografico_dane_codigo_dept" class="java.lang.Integer"/>
+	<field name="demografico_dane_codigo_mpio" class="java.lang.Integer"/>
+	<field name="demografico_dane_nom_mpio" class="java.lang.String"/>
+	<field name="demografico_dane_nom_dept" class="java.lang.String"/>
+	<field name="activo_idactivo" class="java.lang.Integer"/>
+	<field name="activo_id_sede" class="java.lang.Integer"/>
+	<field name="activo_codigo_activo" class="java.lang.String"/>
+	<field name="activo_cantidad" class="java.lang.Integer"/>
+	<field name="activo_valor" class="java.lang.Double"/>
+	<field name="activo_nombre_activo" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="132" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="293" y="10" width="262" height="93" uuid="7f2ac4c9-80dd-493a-8ba8-ccc194c54bdf"/>
+				<textElement textAlignment="Right">
+					<font size="48" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Activos Fijos]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="-17" width="293" height="103" uuid="7fa08e6c-e6ef-4978-bb7e-d72912c39e27"/>
+				<imageExpression><![CDATA["E:\\USER\\Escritorio\\SAMPLER FINAL\\sampler\\web\\Resources\\images\\SamplerNegro.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="144" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="4" y="138" width="551" height="1" uuid="66f25224-0d0d-43a3-a44a-d668f607462d"/>
+			</line>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="0" width="132" height="20" forecolor="#000000" uuid="ca8952f8-5b29-4f27-a6a0-29a6cfaf070a"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nombre Sede:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="211" y="2" width="338" height="18" uuid="982dd8f6-21bd-491c-a5b0-7a0b115e5712"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sede_nombre_sede}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="118" width="132" height="20" forecolor="#000000" uuid="58e4a99b-294b-4b2d-abb8-65969a6d7300"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Ciudad:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="211" y="120" width="338" height="18" uuid="e70fd255-12f0-4993-b53b-80df8640aacc"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{demografico_dane_nom_mpio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="20" width="132" height="20" forecolor="#000000" uuid="3191f66c-ced3-4282-8b95-eb33989cc902"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[No Salas:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="211" y="22" width="338" height="18" uuid="e9c0a56e-6289-4639-bab1-15a1d7164bcb"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sede_numero_salas}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="60" width="132" height="20" forecolor="#000000" uuid="43842ce6-6017-43d9-9f1e-8947e63a04da"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Codigo activo:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="211" y="62" width="338" height="18" uuid="95e99675-2ff9-443a-af6a-81b263dd30f4"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{activo_codigo_activo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="78" width="132" height="20" forecolor="#000000" uuid="c6bc8b8b-8e02-4a10-b45a-3fe1e890ea97"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Cantidad:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="211" y="80" width="338" height="18" uuid="22fcf3b5-de1c-444f-a9b6-70b531686b5d"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{activo_cantidad}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="100" width="132" height="20" forecolor="#000000" uuid="84c894cd-06c2-4453-895b-a4dacc0f41ca"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Valor x Activo:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="211" y="100" width="338" height="18" uuid="0180810b-9256-4c76-91ae-808342c4774e"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{activo_valor}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="211" y="40" width="338" height="18" uuid="6ef929a0-5309-4385-86ac-c95601ade443"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{activo_nombre_activo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="40" width="132" height="20" forecolor="#000000" uuid="c340cb1f-957d-449c-a125-92722380f869"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nombre activo:]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="7" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="1ea3c4b1-1ef3-4eae-b6dc-c38d5c172c5d"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="13" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="2" y="0" width="555" height="13" forecolor="#D0B48E" backcolor="#9DB1B8" uuid="76cfcd46-ae04-44f8-a9e2-b5ffe57ab149"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="513" y="-1" width="40" height="13" forecolor="#FFFFFF" uuid="2325fdad-f65a-4795-b129-3fa2805b7f5d"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="433" y="-1" width="80" height="13" forecolor="#FFFFFF" uuid="4461d80d-5f85-4b50-b690-55cba442d27d"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="2" y="0" width="197" height="13" forecolor="#FFFFFF" uuid="9905fea9-5a2e-46aa-b713-a607e16f810b"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

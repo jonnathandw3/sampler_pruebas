@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+        <ui:composition template="./../Template/Plantilla.xhtml">
+            <ui:define name="content">
+                <!--Miga de pan-->
+                <div class="mainbar">
+                    <!-- Page heading -->
+                    <div class="page-head">
+                        <!--titulo contenido-->
+                        <!-- <h2 class="float-left">Reservas</h2>
+                          <div class="clearfix"></div> -->
+                        <!--fin titulo contenido-->
+                        <!-- miga de pan -->
+                        <div class="bread-crumb"> <a href="mdl.reservas.dashboard.xhtml"><i class="fa fa-home"></i>inicio</a> 
+                            <!-- division --> <span class="divider">/</span>  <a href="#" class="bread-current">Inventarios Servicios</a>
+                        </div>
+                        <!--fin miga de pan-->
+                    </div>
+                    <!--contenido pagina-->
+                    <div class="matter">
+                        <div class="container">
+                            <!-- Table -->
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="widget">
+                                        <div class="widget-head">
+                                            <div class="float-left">Tabla</div>
+                                            <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="wsettings"><i class="fa fa-wrench"></i></a>  <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="widget-content container-fluid">
+                                            <!--tabla-->
+                                            <h:form>
+                                                <table id="tablaFacturacion" class="table table-striped table-bordered tablaBusqueda" style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>SERVICIO</th>
+                                                            <th>Descripcion</th>
+                                                            <th>Costo</th>	
+                                                            <th>Fecha Inicio</th>
+                                                            <th>Fecha Final</th>
+                                                            <th>Estado</th>	
+                                                            <th>ACCION</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        <c:forEach items="#{servicioSessionController.todosServicios()}" var="item">
+                                                            <tr>
+                                                                <td>#{item.nombreItem}</td>
+                                                                <td>#{item.descripcion}</td>
+                                                                <td>#{item.valorUnitario}</td>
+                                                                <td>
+                                                                    <h:outputLabel value="#{item.fechaInicio}">
+                                                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5"></f:convertDateTime>
+                                                                    </h:outputLabel>
+                                                                </td>
+                                                                <td>
+                                                                    <h:outputLabel value="#{item.fechaFinal}">
+                                                                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-5"></f:convertDateTime>
+                                                                    </h:outputLabel>
+                                                                </td>
+                                                                <td style="background-color: #{item.estadoServicio eq 1?'green':'red'};color: white; vertical-align: middle; text-align: center;" >#{item.estadoServicio eq 1?'Activo':'Inactivo'}</td>
+                                                                <td>
+
+                                                                    <h:commandLink class="btn btn-default" style="" >
+                                                                        <span class="fas fa-pencil-alt" style="color: blue;"/>
+                                                                        <f:ajax event="click" render="miItemModifica" listener="#{servicioSessionController.setItemGestion(item)}"></f:ajax>
+                                                                    </h:commandLink>
+                                                                    <h:commandLink class="btn btn-default" action="#{servicioSessionController.eliminarServicio(item)}"  >
+                                                                        <span class="fas fa-trash" style="color: red; "/>
+                                                                    </h:commandLink>  
+
+
+                                                                </td>
+                                                            </tr>
+                                                        </c:forEach>
+
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th>SERVICIO</th>
+                                                            <th>Descripcion</th>
+                                                            <th>Costo</th>	
+                                                            <th>Fecha Inicio</th>
+                                                            <th>Fecha Final</th>
+                                                            <th>Estado</th>	
+                                                            <th>ACCION</th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </h:form>
+                                            <!--Fin tabla-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="widget">
+                                        <div class="widget-head">
+                                            <div class="float-left">Agregar Servicio</div>
+                                            <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="widget-content container-fluid">
+                                            <!--tabla-->
+                                            <h:form id="miItem">
+
+                                                <div class="form-group row">
+                                                    <label class="col-lg-4 col-form-label form-control-label">Nombre Servicio</label>
+                                                    <div class="col-lg-5">
+                                                        <h:inputText class="form-control" id="idnombreServicio" label="nombre servicio" a:placeholder="nombreServicio" required="true" value="#{servicioSessionController.nombreItem}">
+                                                        </h:inputText>
+                                                        <h:message for="idnombreServicio" style="color: red;margin: 8px"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-4 col-form-label form-control-label" for="descripcion">Descripcion</label>
+                                                    <br/>
+                                                    <div class="col-lg-5">
+                                                        <h:inputTextarea class="form-control" id="iddescripcion" rows="3" a:placeholder="descripcion" required="true" value="#{servicioSessionController.descripcion}">
+                                                        </h:inputTextarea>
+                                                        <h:message for="iddescripcion" id="idMdescripcion" style="color: red;margin: 8px"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-4 col-form-label form-control-label">Costo</label>
+                                                    <br/>
+                                                    <div class="col-lg-5">
+                                                        <h:inputText class="form-control" a:type="number" id="idvalor" a:placeholder="costo" requiredMessage="Se requiere un valor" validatorMessage="datos incorrectos" required="true" value="#{servicioSessionController.valorUnitario}">
+                                                            <f:validateLength maximum="10" minimum="4"></f:validateLength>
+                                                            <f:ajax event="keypress" render="idMvalor"/>
+                                                        </h:inputText>
+                                                        <h:message for="idvalor" id="idMvalor" style="color: red;margin: 8px"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-4 col-form-label form-control-label">Fecha Inicio</label>
+                                                    <div class="col-lg-5">
+                                                        <h:inputText class="form-control" id="idFechaInicio" a:type="date" requiredMessage="Se requiere un valor" validatorMessage="datos incorrectos" a:min="#{servicioSessionController.now}" label="Fecha Inicio" 
+                                                                     required="true" value="#{servicioSessionController.fechaInicio}">
+                                                        </h:inputText>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-4 col-form-label form-control-label">Fecha Fin</label>
+                                                    <div class="col-lg-5">
+                                                        <h:inputText class="form-control" id="idFechaFinal" a:type="date" requiredMessage="Se requiere un valor" validatorMessage="datos incorrectos" a:min="#{servicioSessionController.now}" label="Fecha Final" 
+                                                                     required="true" value="#{servicioSessionController.fechaFin}">
+                                                        </h:inputText>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-4 col-form-label form-control-label">Estado</label>
+                                                    <div class="col-lg-5">
+                                                        <h:selectOneMenu id="Estado" class="form-control" value="#{servicioSessionController.estadohistorico_inventario}" >
+                                                            <f:selectItem itemLabel="Activo" itemValue="1"></f:selectItem>
+                                                            <f:selectItem itemLabel="Inactivo" itemValue="2"></f:selectItem>
+
+                                                        </h:selectOneMenu>
+
+                                                    </div>
+                                                </div>
+                                                <div class="offset-lg-12 text-center">
+                                                    <div class="action col-lg-5" >
+                                                        <br/>
+                                                        <h:commandButton class="btn btn-success " action="#{servicioSessionController.ingresarNuevoServicio()}" value="Ingresar">
+                                                        </h:commandButton>
+
+                                                    </div>
+                                                </div>
+                                            </h:form>
+
+
+                                            <!--Fin tabla-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="widget">
+                                        <div class="widget-head">
+                                            <div class="float-left">Modificar Producto</div>
+                                            <div class="widget-icons float-right"> <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
+                                                <a href="#" class="wclose"><i class="fa fa-times"></i></a>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="widget-content container-fluid">
+                                            <!--tabla-->
+                                            <h:form class="form" role="form" a:autocomplete="off" id="miItemModifica">
+
+
+                                                <div class="form-group row">
+                                                    <label class="col-lg-4 col-form-label form-control-label">Nombre Producto</label>
+                                                    <div class="col-lg-5">
+                                                        <!--<input class="form-control" type="text" name="nombre"/>-->
+                                                        <h:inputText class="form-control" id="nombreProducto" required="true" value="#{servicioSessionController.itemGestion.nombreItem}">
+                                                        </h:inputText>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-4 col-form-label form-control-label" for="descripcion">Descripcion</label>
+                                                    <br/>
+                                                    <div class="col-lg-5">
+                                                        <h:inputTextarea class="form-control" id="iddescripcion" rows="3" required="true" value="#{servicioSessionController.itemGestion.descripcion}">
+                                                        </h:inputTextarea>
+                                                        <h:message for="iddescripcion" id="idMdescripcion" style="color: red;margin: 8px"/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label class="col-lg-4 col-form-label form-control-label">Valor Unitario</label>
+                                                    <br/>
+                                                    <div class="col-lg-5">
+                                                        <h:inputText class="form-control" a:type="number"  id="idvalor"  requiredMessage="Se requiere un valor" validatorMessage="datos incorrectos" required="true" label="valor" value="#{servicioSessionController.itemGestion.valorUnitario}">
+                                                            <f:validateLength maximum="10" minimum="4"></f:validateLength>
+                                                            <f:ajax event="keypress" render="idMvalor"/>
+                                                        </h:inputText>
+                                                        <h:message for="idvalor" id="idMvalor" style="color: red;margin: 8px"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-lg-4 col-form-label form-control-label">Estado</label>
+                                                    <div class="col-lg-5">
+                                                        <h:selectOneMenu id="Estado" class="form-control" value="#{productoSessionController.historicoGestion.estadohistoricoInventario}" >
+                                                            <f:selectItem itemLabel="Activo" itemValue="1"></f:selectItem>
+                                                            <f:selectItem itemLabel="Inactivo" itemValue="2"></f:selectItem>                  
+                                                        </h:selectOneMenu>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="offset-lg-12 text-center">
+                                                    <br/>
+                                                    <h:commandButton class="btn btn-dark signup" action="#{servicioSessionController.actualizarServicio()}" value="Actualizar">
+                                                    </h:commandButton>
+
+                                                </div>
+                                            </h:form>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- fin contenido pagina-->
+                </div>
+                <!--Fin miga de pan-->
+            </ui:define>
+            <ui:define name="scriptJquery">
+                <script src="../Resources/js/jquery.min.js"></script>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

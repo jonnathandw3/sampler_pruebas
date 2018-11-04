@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="eefc036f-26b1-496b-a326-31e0d5a6199c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="FechaFactura" class="java.util.Date">
+		<defaultValueExpression><![CDATA[$F{factura_fecha_factura}]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     factura.`idfactura` AS factura_idfactura,
+     factura.`id_item` AS factura_id_item,
+     factura.`id_cliente` AS factura_id_cliente,
+     factura.`id_reserva` AS factura_id_reserva,
+     factura.`cantidad` AS factura_cantidad,
+     factura.`fecha_factura` AS factura_fecha_factura,
+     factura.`codigo_banda` AS factura_codigo_banda,
+     factura.`ivatotal` AS factura_ivatotal,
+     factura.`valortotal` AS factura_valortotal,
+     item.`iditem` AS item_iditem,
+     item.`id_tipo_item` AS item_id_tipo_item,
+     item.`nombre_item` AS item_nombre_item,
+     item.`descripcion` AS item_descripcion,
+     item.`cantidad` AS item_cantidad,
+     item.`valor_unitario` AS item_valor_unitario,
+     item.`fecha_inicio` AS item_fecha_inicio,
+     item.`fecha_final` AS item_fecha_final,
+     item.`estado_servicio` AS item_estado_servicio,
+     cliente.`idcliente` AS cliente_idcliente,
+     cliente.`tipo_cliente` AS cliente_tipo_cliente,
+     cliente.`nombre_cliente` AS cliente_nombre_cliente,
+     cliente.`nombre2_cliente` AS cliente_nombre2_cliente,
+     cliente.`apellido_cliente` AS cliente_apellido_cliente,
+     cliente.`apellido2_cliente` AS cliente_apellido2_cliente,
+     cliente.`identificacion` AS cliente_identificacion,
+     cliente.`fecha_nacimiento` AS cliente_fecha_nacimiento,
+     cliente.`numero_fijo` AS cliente_numero_fijo,
+     cliente.`numero_movil` AS cliente_numero_movil,
+     cliente.`email` AS cliente_email,
+     cliente.`multa` AS cliente_multa,
+     reserva.`idreserva` AS reserva_idreserva,
+     reserva.`codigo_reserva` AS reserva_codigo_reserva,
+     reserva.`sala` AS reserva_sala,
+     reserva.`documento_cliente` AS reserva_documento_cliente,
+     reserva.`nombre_cliente` AS reserva_nombre_cliente,
+     reserva.`fecha_reserva` AS reserva_fecha_reserva,
+     reserva.`hora_inicio` AS reserva_hora_inicio,
+     reserva.`hora_fin` AS reserva_hora_fin
+FROM
+     `item` item INNER JOIN `factura` factura ON item.`iditem` = factura.`id_item`
+     INNER JOIN `cliente` cliente ON factura.`id_cliente` = cliente.`idcliente`
+     INNER JOIN `reserva` reserva ON factura.`id_reserva` = reserva.`idreserva`
+	WHERE factura.`fecha_factura` = $P{FechaFactura}]]>
+	</queryString>
+	<field name="factura_idfactura" class="java.lang.Integer"/>
+	<field name="factura_id_item" class="java.lang.Integer"/>
+	<field name="factura_id_cliente" class="java.lang.Integer"/>
+	<field name="factura_id_reserva" class="java.lang.Integer"/>
+	<field name="factura_cantidad" class="java.lang.Integer"/>
+	<field name="factura_fecha_factura" class="java.sql.Timestamp"/>
+	<field name="factura_codigo_banda" class="java.lang.String"/>
+	<field name="factura_ivatotal" class="java.lang.Double"/>
+	<field name="factura_valortotal" class="java.lang.Double"/>
+	<field name="item_iditem" class="java.lang.Integer"/>
+	<field name="item_id_tipo_item" class="java.lang.Integer"/>
+	<field name="item_nombre_item" class="java.lang.String"/>
+	<field name="item_descripcion" class="java.lang.String"/>
+	<field name="item_cantidad" class="java.lang.Integer"/>
+	<field name="item_valor_unitario" class="java.lang.Double"/>
+	<field name="item_fecha_inicio" class="java.sql.Timestamp"/>
+	<field name="item_fecha_final" class="java.sql.Timestamp"/>
+	<field name="item_estado_servicio" class="java.lang.String"/>
+	<field name="cliente_idcliente" class="java.lang.Integer"/>
+	<field name="cliente_tipo_cliente" class="java.lang.Integer"/>
+	<field name="cliente_nombre_cliente" class="java.lang.String"/>
+	<field name="cliente_nombre2_cliente" class="java.lang.String"/>
+	<field name="cliente_apellido_cliente" class="java.lang.String"/>
+	<field name="cliente_apellido2_cliente" class="java.lang.String"/>
+	<field name="cliente_identificacion" class="java.lang.String"/>
+	<field name="cliente_fecha_nacimiento" class="java.sql.Timestamp"/>
+	<field name="cliente_numero_fijo" class="java.lang.Integer"/>
+	<field name="cliente_numero_movil" class="java.lang.Long"/>
+	<field name="cliente_email" class="java.lang.String"/>
+	<field name="cliente_multa" class="java.lang.String"/>
+	<field name="reserva_idreserva" class="java.lang.Integer"/>
+	<field name="reserva_codigo_reserva" class="java.lang.String"/>
+	<field name="reserva_sala" class="java.lang.Integer"/>
+	<field name="reserva_documento_cliente" class="java.lang.String"/>
+	<field name="reserva_nombre_cliente" class="java.lang.String"/>
+	<field name="reserva_fecha_reserva" class="java.sql.Timestamp"/>
+	<field name="reserva_hora_inicio" class="java.sql.Time"/>
+	<field name="reserva_hora_fin" class="java.sql.Time"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="102" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="802" height="66" backcolor="#000000" uuid="42b54905-b1e8-4eec-ac5f-894ba0a63753"/>
+				<staticText>
+					<reportElement style="Title" x="307" y="0" width="321" height="66" uuid="37c45803-843f-4c4c-8d27-c55ea981e4df"/>
+					<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4"/>
+					<textElement verticalAlignment="Bottom">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[Factura Cliente]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" x="664" y="37" width="132" height="29" uuid="d1cb9d84-b5d8-487c-832f-7e94ae9dd5f0"/>
+					<textElement textAlignment="Right">
+						<font size="22" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Detalle factura]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="70" width="802" height="32" forecolor="#000000" backcolor="#CC0000" uuid="00ee5f6b-b4ab-4d70-90f5-8fcfeadf1708"/>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement x="559" y="12" width="144" height="20" forecolor="#FFFFFF" uuid="6959e355-e6e3-4d22-97d8-4303b26f765f"/>
+					<textElement textAlignment="Right">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+			<image>
+				<reportElement x="32" y="7" width="346" height="54" uuid="ed020796-314a-46db-82b6-29672c3f06e4"/>
+				<imageExpression><![CDATA["E:\\USER\\Escritorio\\SAMPLER FINAL\\sampler\\web\\Resources\\images\\SamplerBlanco.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="18" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="79" height="18" forecolor="#000000" uuid="9a7905bf-c711-44ef-b579-dd2329d421e7"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No Factura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="79" y="0" width="79" height="18" forecolor="#000000" uuid="0bda31f1-297d-40ed-9a55-26b9dd2ac67c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Factura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="158" y="0" width="91" height="18" forecolor="#000000" uuid="b1100224-9cf4-4cfa-8820-b4105d498658"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="249" y="0" width="72" height="18" forecolor="#000000" uuid="9825d98f-3008-4567-ac9b-ef2497650227"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Apellido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="321" y="0" width="81" height="18" forecolor="#000000" uuid="8240c707-df13-4251-a791-576df006f114"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="402" y="0" width="79" height="18" forecolor="#000000" uuid="a2095089-d449-47ff-9133-9e31659c7205"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Celular]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="481" y="0" width="79" height="18" forecolor="#000000" uuid="dbfe20c5-48ac-4305-a0e3-a85e94f8a8a9"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Correo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="560" y="0" width="81" height="18" forecolor="#000000" uuid="53804437-fb00-453f-a796-0ec4cc9e443b"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Iva total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="641" y="0" width="82" height="18" forecolor="#000000" uuid="9221ed7c-5a1f-4042-b864-5ce716f0ffec"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Multa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="722" y="0" width="79" height="18" forecolor="#000000" uuid="579d7bde-c2ab-405b-b2e8-2b22afb5ffa9"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor Total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="797" height="18" uuid="2301e35f-2328-4ecf-8d2b-ac17d48bd7c0"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="0" y="0" width="79" height="18" uuid="bcab8fd2-e188-4722-b37e-1a49bc14e292"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{factura_idfactura}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+					<reportElement style="Detail" positionType="Float" x="79" y="0" width="79" height="18" uuid="e522e5a8-6041-4be2-a45f-5cb08319c448"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{factura_fecha_factura}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="158" y="0" width="91" height="18" uuid="dc452c0b-5d8f-4318-a529-922da542ea8b"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cliente_nombre_cliente}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="249" y="0" width="72" height="18" uuid="045cbc5d-fb2e-46bf-bca3-77c9843c2418"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cliente_apellido_cliente}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="320" y="0" width="82" height="18" uuid="25a00e54-eaee-4ef5-ae2a-a9886e096b70"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cliente_identificacion}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="401" y="0" width="79" height="18" uuid="928a0ba9-1b59-4bea-b07f-4ba1e81c7faa"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cliente_numero_movil}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="480" y="0" width="79" height="18" uuid="a8c0ffc0-336c-4ad3-99a0-963ef93edc96"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cliente_email}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0">
+					<reportElement style="Detail" positionType="Float" x="559" y="0" width="82" height="18" uuid="bd9a6f15-d5c7-4e70-a31d-1e5f2f5205a2"/>
+					<textElement textAlignment="Center">
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{factura_ivatotal}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0">
+					<reportElement style="Detail" positionType="Float" x="641" y="0" width="81" height="18" uuid="ae8830ce-8964-43fa-9021-240708c2ef59"/>
+					<textElement textAlignment="Center">
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cliente_multa}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0">
+					<reportElement style="Detail" positionType="Float" x="722" y="0" width="75" height="18" uuid="a4f80958-bb49-4d9d-9a87-ec8029eea4ee"/>
+					<textElement textAlignment="Center">
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{factura_valortotal}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="7" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="33fcdf5c-c857-43ef-8306-8774b5ed9b85"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="802" height="25" forecolor="#D0B48E" backcolor="#000000" uuid="bea18572-a96c-4e72-a62b-73ba0e43770c"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="757" y="3" width="40" height="20" forecolor="#FFFFFF" uuid="a54c8af2-5e7b-4fb2-9921-70ac7db00aa5"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="677" y="3" width="80" height="20" forecolor="#FFFFFF" uuid="096086ad-d222-4481-ae0b-257c0aa9412f"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="2" y="3" width="197" height="20" forecolor="#FFFFFF" uuid="968d6260-01ef-4a27-a264-863858577f9b"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
